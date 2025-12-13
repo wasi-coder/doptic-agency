@@ -80,7 +80,7 @@ const Hero = () => {
       // Calculate the NEW effective viewport height (Viewport minus Navbar Height)
       const effectiveViewportHeight = window.innerHeight - NAVBAR_HEIGHT;
       
-      // 1. Calculate the offset to move the image's center to the center of the *effective* viewport
+      // 1. Calculate the offset to move the image's center to the center of the effective viewport
       const targetCenterY = (effectiveViewportHeight / 2) + NAVBAR_HEIGHT / 2;
       
       const centerX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
@@ -128,20 +128,35 @@ const Hero = () => {
 
         // Phase 3: Scale the Image to Fill Screen
         .to('#hero-image-container', {
-          scale: targetScale, 
+          scale: targetScale,
           duration: 1.5,
-          transformOrigin: '50% 50%' 
+          transformOrigin: '50% 50%'
         }, 1)
+
+      // Refresh ScrollTrigger to update all calculations
+      ScrollTrigger.refresh();
     }
     
     // Run the setup when component mounts
     setupScrollAnimation();
-    
-    // Add event listener to re-calculate on resize
-    window.addEventListener('resize', setupScrollAnimation);
+
+    // Add event listener to re-calculate on resize with debounce and RAF
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // Use requestAnimationFrame to ensure DOM has reflowed
+        requestAnimationFrame(() => {
+          setupScrollAnimation();
+        });
+      }, 100); // Debounce by 100ms
+    };
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', setupScrollAnimation);
+      clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', handleResize);
       ScrollTrigger.getAll().forEach(trigger => trigger.kill())
       tlInitial.kill()
       if (tlScroll) tlScroll.kill()
