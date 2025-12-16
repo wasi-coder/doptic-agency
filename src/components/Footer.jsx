@@ -1,179 +1,189 @@
-import { motion } from 'framer-motion'
-import { FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa'
+import React from "react";
 
-const CONTACT_EMAIL = 'hello@info.com'
+// --- START: CallToActionSection Component ---
 
-const Footer = () => {
-  const footerLinks = {
-    company: [
-      { name: 'About', href: '/about' },
-      { name: 'Project', href: '/projects' },
-      { name: 'Service', href: '/services' },
-      { name: 'Values', href: '#' },
-      { name: 'Contact', href: '#' }
-    ],
-    support: [
-      { name: 'Style Guide', href: '#' },
-      { name: 'License', href: '#' },
-      { name: 'Changelog', href: '#' },
-      { name: 'Link Nine', href: '#' },
-      { name: 'Link Ten', href: '#' }
-    ],
-    social: [
-      { name: 'Instagram', icon: FaInstagram, href: '#' },
-      { name: 'LinkedIn', icon: FaLinkedinIn, href: '#' },
-      { name: 'Youtube', icon: FaYoutube, href: '#' }
-    ]
-  }
-
+export const CallToActionSection = ()=> {
   return (
-    <footer className="overflow-hidden">
-      {/* Section 1: CTA Section - Orange Background */}
-      <div className="bg-primary-orange text-white">
-        <div className="container mx-auto px-6 md:px-12 py-20 md:py-32">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 leading-tight">
-              GOT AN IDEA?
-            </h2>
-            <h3 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif italic mb-8">
-              LET'S TALK
+    <section className="flex flex-col w-full items-center gap-20 px-[75px] py-[200px] bg-[#ff4920]">
+      <div className="flex flex-col items-center gap-3.5 relative w-full">
+        <h2 className="w-fit font-normal text-transparent text-9xl text-center leading-[128px] relative mt-[-1.00px] [font-family:'Inter_Variable-Medium',Helvetica] translate-y-[-1rem] animate-fade-in opacity-1 [--animation-delay:200ms]">
+          <span className="font-medium text-[#0e0e0e] tracking-[-6.55px] leading-[153.6px]">
+            GOT AN IDEA?
+            <br />
+          </span>
+
+          <span className="[font-family:'Libre_Caslon_Text',Helvetica] italic text-[#0e0e0e] tracking-[-6.55px] leading-[153.6px]">
+            LET&#39;S TALK
+          </span>
+        </h2>
+
+        <p className="text-[#0e0e0e] text-lg text-center leading-[28.8px] relative [font-family:'Inter_Variable-Regular',Helvetica] font-normal tracking-[0] max-w-full translate-y-[-1rem] animate-fade-in opacity-1 [--animation-delay:400ms]">
+          We craft design experiences that leave a lasting impression bold,
+          purposeful, and deeply human.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+// --- END: CallToActionSection Component ---
+
+// --- START: FooterSection Component ---
+
+const companyLinks = [
+  { label: "About" },
+  { label: "Project" },
+  { label: "Service" },
+  { label: "Values" },
+  { label: "Contact" },
+];
+
+const supportLinks = [
+  { label: "Style Guide" },
+  { label: "License" },
+  { label: "Changelog" },
+  { label: "Link Nine" },
+  { label: "Link Ten" },
+];
+
+const socialLinks = [
+  {
+    icon: "https://c.animaapp.com/mj6xytezddxCqE/img/scoials-cur-05.svg",
+    label: "Instagram",
+  },
+  {
+    icon: "https://c.animaapp.com/mj6xytezddxCqE/img/scoials-cur-03.svg",
+    label: "LinkedIn",
+  },
+  {
+    icon: "https://c.animaapp.com/mj6xytezddxCqE/img/icon---youtube.svg",
+    label: "Youtube",
+  },
+];
+
+
+
+export const FooterSection = ()=> {
+  return (
+    <footer className="w-full items-center gap-16 pt-[120px] pb-5 px-[75px] bg-[#e2e2e2] flex flex-col relative">
+     
+      <div className="grid grid-cols-10 w-full">
+
+        <div className="flex items-start gap-8 flex-1 col-span-4">
+          <nav className="items-start gap-4 flex-1 flex flex-col">
+            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-2xl tracking-[-0.96px] leading-[28.8px]">
+              Company
             </h3>
-            <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-90">
-              We create design experiences that transform businesses and delight users. 
-              Let's build something extraordinary together.
-            </p>
-          </motion.div>
+
+            <ul className="items-start self-stretch w-full flex flex-col">
+              {companyLinks.map((link, index) => (
+                <li
+                  key={index}
+                  className="flex items-start px-0 py-2 self-stretch w-full"
+                >
+                  <a
+                    href="#"
+                    className="flex-1 [font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] hover:text-[#0e0e0e] transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav className="items-start gap-4 flex-1 flex flex-col">
+            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-2xl tracking-[-0.96px] leading-[28.8px]">
+              Support
+            </h3>
+
+            <ul className="flex flex-col items-start self-stretch w-full">
+              {supportLinks.map((link, index) => (
+                <li
+                  key={index}
+                  className="flex items-start px-0 py-2 self-stretch w-full"
+                >
+                  <a
+                    href="#"
+                    className="flex-1 [font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] hover:text-[#0e0e0e] transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav className="items-start gap-4 flex-1 flex flex-col">
+            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-2xl tracking-[-0.96px] leading-[28.8px]">
+              Social
+            </h3>
+
+            <ul className="flex flex-col items-start self-stretch w-full">
+              {socialLinks.map((link, index) => (
+                <li
+                  key={index}
+                  className="flex items-center gap-3 px-0 py-2 self-stretch w-full"
+                >
+                  <img className="w-6 h-6" alt={link.label} src={link.icon} />
+                  <a
+                    href="#"
+                    className="[font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] whitespace-nowrap hover:text-[#0e0e0e] transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
+
+        <div className="text-end gap-6 col-span-6">
+          <a
+            href="mailto:hello@info.com"
+            className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-[64px] text-right tracking-[-2.56px] leading-[76.8px] hover:opacity-70 transition-opacity"
+          >
+            hello@info.com
+          </a>
+        </div>
+
       </div>
 
-      {/* Section 2: Actual Footer - Light Background */}
-      <div className="bg-white dark:bg-bg-dark text-text-dark dark:text-text-light transition-colors duration-300">
-        <div className="container mx-auto px-6 md:px-12 py-16 md:py-20">
-          {/* Footer Content Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-            {/* Company */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h4 className="text-lg font-bold mb-6 uppercase tracking-wider text-text-dark dark:text-text-light">Company</h4>
-              <ul className="space-y-3">
-                {footerLinks.company.map((link) => (
-                  <li key={link.name}>
-                    <a 
-                      href={link.href} 
-                      className="text-text-dark dark:text-text-light hover:text-primary-orange transition-colors text-base"
-                      data-cursor-text="View"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+        <h2 className="text-start self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-9xl tracking-[0] leading-[153.6px]">
+          Doptic
+        </h2>
 
-            {/* Support */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <h4 className="text-lg font-bold mb-6 uppercase tracking-wider text-text-dark dark:text-text-light">Support</h4>
-              <ul className="space-y-3">
-                {footerLinks.support.map((link) => (
-                  <li key={link.name}>
-                    <a 
-                      href={link.href} 
-                      className="text-text-dark dark:text-text-light hover:text-primary-orange transition-colors text-base"
-                      data-cursor-text="View"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+        <div className="w-full items-center gap-5 flex flex-col">
+          <div className="w-full max-w-[700px] h-px bg-[#0e0e0e1a]" />
 
-            {/* Social */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <h4 className="text-lg font-bold mb-6 uppercase tracking-wider text-text-dark dark:text-text-light">Social</h4>
-              <ul className="space-y-3">
-                {footerLinks.social.map((social) => (
-                  <li key={social.name}>
-                    <a
-                      href={social.href}
-                      className="flex items-center gap-3 text-text-dark dark:text-text-light hover:text-primary-orange transition-colors text-base"
-                      data-cursor-text={social.name}
-                    >
-                      <social.icon className="text-xl" />
-                      <span>{social.name}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Email */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="lg:text-right"
-            >
-              <a 
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-dark dark:text-text-light hover:text-primary-orange transition-colors inline-block"
-                data-cursor-text="Click to Email"
-              >
-                {CONTACT_EMAIL}
-              </a>
-            </motion.div>
+          <div className="flex items-center justify-center gap-16 w-full mb-10">
+            <p className="[font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] whitespace-nowrap">
+              Copyright ©Doptic – Where designs meet the future.
+            </p>
           </div>
-
-          {/* Large Branding */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-8"
-          >
-            <h2 className="text-7xl md:text-8xl lg:text-9xl font-bold text-text-dark dark:text-text-light">
-              Doptic
-            </h2>
-          </motion.div>
-
-          {/* Copyright */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="border-t border-gray-300 dark:border-gray-700 pt-8"
-          >
-            <p className="text-text-dark dark:text-text-light text-sm md:text-base">
-              Copyright © {new Date().getFullYear()} Doptic – Where designs meet the future.
-            </p>
-          </motion.div>
         </div>
-      </div>
+    
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+// --- END: FooterSection Component ---
+
+// --- NEW: Combined Component ---
+
+/**
+ * Renders the CallToActionSection followed by the FooterSection.
+ * This component acts as the "merged" result you requested.
+ */
+export const PageBottom = () => {
+  return (
+    <>
+      <CallToActionSection />
+      <FooterSection />
+    </>
+  );
+};
+
+
+
+export default FooterSection

@@ -1,149 +1,161 @@
-import { motion } from 'framer-motion'
-import MagneticButton from '../components/MagneticButton'
+import React from "react";
 
-const Blog = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'The Future of Digital Design',
-      description: 'Exploring emerging trends in web design and how AI is reshaping creative workflows.',
-      category: 'Design',
-      categoryColor: 'bg-purple-500',
-      readTime: '5 min read',
-      image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80'
-    },
-    {
-      id: 2,
-      title: 'Building Immersive Web Experiences',
-      description: 'How modern animation libraries are transforming user engagement and interaction.',
-      category: 'Tech',
-      categoryColor: 'bg-blue-500',
-      readTime: '7 min read',
-      image: 'https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?w=800&q=80'
-    },
-    {
-      id: 3,
-      title: 'Color Psychology in Branding',
-      description: 'Understanding how color choices influence user perception and brand identity.',
-      category: 'Branding',
-      categoryColor: 'bg-pink-500',
-      readTime: '6 min read',
-      image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=80'
-    },
-    {
-      id: 4,
-      title: 'Minimalism in Modern Design',
-      description: 'Why less is more when it comes to creating elegant and effective digital products.',
-      category: 'Design',
-      categoryColor: 'bg-purple-500',
-      readTime: '4 min read',
-      image: 'https://images.unsplash.com/photo-1524668951403-d44b28200ce0?w=800&q=80'
-    }
-  ]
+const blogPosts = [
+  {
+    image: "/images/blogimage1.svg",
+    category: "Design",
+    readTime: "5 min read",
+    title: "The psychology of color in 2026",
+    description:
+      "Discover how palette choices influence user trust and decision-making.",
+  },
+  {
+    image: "/images/blogimage2.svg",
+    category: "Tech",
+    readTime: "5 min read",
+    title: "Why minimalism is evolving fast",
+    description:
+      "Exploring the shift toward maximalism in modern interface design",
+  },
+];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut'
-      }
-    }
-  }
-
+export const BlogSection = () => {
   return (
-    <section
-      className="min-h-screen bg-bg-light dark:bg-bg-dark py-20 px-6 md:px-12 transition-colors duration-300"
-      id="blog"
-    >
-      <div className="container mx-auto">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text-dark dark:text-text-light">
-            Insights from the <span className="text-italic-serif">studio</span>
-          </h2>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-            <p className="text-lg md:text-xl text-gray-700 dark:text-text-secondary max-w-2xl">
-              We share what we learn. Read our latest thoughts on the future of digital design.
-            </p>
-            <MagneticButton className="bg-text-dark dark:bg-text-light text-white dark:text-text-dark px-8 py-4 rounded-full text-lg font-medium hover:bg-opacity-90 transition-all">
-              View All
-            </MagneticButton>
-          </div>
-        </motion.div>
+    <section className="flex flex-col w-full items-start gap-16 px-[75px] py-[120px] bg-bg-light dark:bg-bg-dark transition-colors duration-300">
 
-        {/* Blog Grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-        >
-          {blogPosts.map((post) => (
-            <motion.article
-              key={post.id}
-              variants={itemVariants}
-              className="group cursor-pointer"
+      <header className="flex items-center justify-between w-full">
+
+        <div className="flex flex-col w-full items-center gap-3 translate-y-[-1rem] animate-fade-in opacity-1 [--animation-delay:200ms]">
+          
+          <h2 className="self-stretch font-normal text-transparent text-7xl leading-[72px]">
+           
+            <span
+              className="font-medium text-text-dark dark:text-text-light tracking-[-2.07px] leading-[86.4px]"
+              style={{
+                fontFamily: 'Inter Variable, Inter, sans-serif',
+                fontWeight: 500
+              }}
             >
-              {/* Image */}
-              <div className="relative rounded-2xl overflow-hidden mb-6 shadow-lg">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  decoding="async"
-                  width={800}
-                  height={300}
-                  srcSet={`${post.image}&w=400 400w, ${post.image}&w=800 800w`}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                {/* Category Tag */}
-                <div className="absolute top-4 left-4">
-                  <span className={`${post.categoryColor} text-white px-4 py-2 rounded-full text-sm font-semibold`}>
-                    {post.category}
-                  </span>
-                </div>
-                {/* Read Time */}
-                <div className="absolute bottom-4 right-4">
-                  <span className="bg-white dark:bg-bg-secondary-dark text-text-dark dark:text-text-light px-4 py-2 rounded-full text-sm font-semibold">
-                    {post.readTime}
-                  </span>
+              Insights from the
+              <br />
+            </span>
+
+            <span
+              className="italic text-text-dark dark:text-text-light tracking-[-2.07px] leading-[86.4px]"
+              style={{
+                fontFamily: 'Libre Caslon Text, serif',
+                fontWeight: 400,
+                fontStyle: 'italic'
+              }}
+            >
+              studio
+            </span>
+
+          </h2>
+
+          <p
+            className="self-stretch font-normal text-gray-700 dark:text-text-secondary text-lg tracking-[0] leading-[28.8px]"
+            style={{
+              fontFamily: 'Inter Variable, Inter, sans-serif',
+              fontWeight: 400
+            }}
+          >
+            We share what we learn. Read our latest thoughts on the future of
+            digital design.
+          </p>
+
+        </div>
+
+        <button
+          className="h-auto inline-flex items-center justify-center gap-2 px-6 py-3 border border-solid bg-bg-light dark:bg-bg-dark hover:bg-[#0e0e0e0a] dark:hover:bg-[#e2e2e20a] transition-colors translate-y-[-1rem] animate-fade-in opacity-1 [--animation-delay:400ms] rounded-md"
+          style={{
+            borderColor: 'rgba(14, 14, 14, 0.4)'
+          }}
+        >
+
+          <span
+            className="font-medium text-text-dark dark:text-text-light text-xl tracking-[0] leading-[30px] whitespace-nowrap"
+            style={{
+              fontFamily: 'Inter Variable, Inter, sans-serif',
+              fontWeight: 500
+            }}
+          >
+            View All
+          </span>
+          
+        </button>
+
+      </header>
+
+      <div className="grid grid-cols-2 gap-[30px] w-full">
+        {blogPosts.map((post, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-start gap-[30px] bg-transparent translate-y-[-1rem] animate-fade-in opacity-1"
+            style={{
+              "--animation-delay": `${600 + index * 200}ms`
+            }}
+          >
+            <div className="flex flex-col items-start gap-[30px] p-0 w-full">
+              <img
+                className="w-full  object-cover rounded-lg"
+                alt="Placeholder image"
+                src={post.image}
+              />
+              <div className="flex flex-col items-start gap-14 w-full">
+                <div className="flex flex-col items-start gap-3 w-full">
+                  <div className="flex items-center justify-between w-full">
+                    <span
+                      className="inline-flex items-start px-3 py-1 bg-[#ff49201a] rounded-[99px] border border-solid border-[#ff492033]"
+                    >
+                      <span
+                        className="mt-[-1.00px] text-text-dark dark:text-text-light text-sm leading-[16.8px] whitespace-nowrap font-normal tracking-[0]"
+                        style={{
+                          fontFamily: 'Inter Variable, Inter, sans-serif',
+                          fontWeight: 400
+                        }}
+                      >
+                        {post.category}
+                      </span>
+                    </span>
+                    <span
+                      className="text-text-dark dark:text-text-light text-sm leading-[22.4px] whitespace-nowrap font-normal tracking-[0]"
+                      style={{
+                        fontFamily: 'Inter Variable, Inter, sans-serif',
+                        fontWeight: 400
+                      }}
+                    >
+                      {post.readTime}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-start gap-3 w-full">
+                    <h3
+                      className="self-stretch font-medium text-text-dark dark:text-text-light text-[40px] tracking-[-1.60px] leading-[48.0px]"
+                      style={{
+                        fontFamily: 'Inter Variable, Inter, sans-serif',
+                        fontWeight: 500
+                      }}
+                    >
+                      {post.title}
+                    </h3>
+                    <p
+                      className="self-stretch font-normal text-gray-700 dark:text-text-secondary text-lg tracking-[0] leading-[28.8px]"
+                      style={{
+                        fontFamily: 'Inter Variable, Inter, sans-serif',
+                        fontWeight: 400
+                      }}
+                    >
+                      {post.description}
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              {/* Content */}
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-text-dark dark:text-text-light group-hover:text-primary-orange transition-colors">
-                {post.title}
-              </h3>
-              <p className="text-lg text-gray-700 dark:text-text-secondary">
-                {post.description}
-              </p>
-            </motion.article>
-          ))}
-        </motion.div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Blog
+export default BlogSection;

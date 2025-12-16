@@ -5,13 +5,15 @@ import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
 import NavMenu from './components/NavMenu'
 import ScrollToTop from './components/ScrollToTop'
-import Footer from './components/Footer'
+import Footer, { CallToActionSection } from './components/Footer'
 import Hero from './pages/Hero'
 import About from './pages/About'
 import Projects from './pages/Projects'
 import Services from './pages/Services'
 import Reviews from './pages/Reviews'
 import Blog from './pages/Blog'
+import FaqSection from './pages/Faq'
+
 
 // Home page with all sections
 const Home = () => {
@@ -23,6 +25,8 @@ const Home = () => {
       <Projects />
       <Reviews />
       <Blog />
+      <FaqSection/>
+      <CallToActionSection/>
       <Footer />
     </>
   )

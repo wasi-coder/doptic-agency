@@ -18,28 +18,27 @@ const Projects = () => {
       label: 'PROJECT 01',
       title: 'Redefining Urban',
       titleHighlight: 'Fashion',
-      //subtitle: 'A bold new identity',
       description: 'We transformed a local label into a global brand. Our strategic design increased conversion rates and customer loyalty instantly.',
       image: '/images/projectsimage1.svg',
-      tags: ['PRODUCTION', 'LONDON', 'FASHION']
+      dimensions: '1290 Fill × 640 Hug'
     },
     {
       id: 2,
       label: 'PROJECT 02',
-      title: 'Halo Masterpiece',
-      //subtitle: 'Gaming meets art',
+      title: 'Scaling Enterprise',
+      titleHighlight: 'SaaS',
       description: 'A robust dashboard redesign for Optixmn that improves user workflow and visualizes complex data clearly.',
       image: '/images/projectsimage2.svg',
-      tags: ['DIGITAL', 'GAMING', 'INTERACTIVE']
+      dimensions: '1290 Fill × 640 Hug'
     },
     {
       id: 3,
       label: 'PROJECT 03',
-      title: 'Future of Mobility',
-     // subtitle: 'Innovation in motion',
+      title: 'Modern Housing',
+      titleHighlight: 'Solutions',
       description: 'A property management app for Nesto that automates tenant requests and streamlines maintenance workflows.',
-      image: '/images/projectsimage3.png',
-      tags: ['AUTOMOTIVE', 'DESIGN', 'SUSTAINABILITY']
+      image: '/images/projectsimage3.svg',
+      dimensions: '1290 Fill × 640 Hug'
     }
   ]
 
@@ -47,14 +46,14 @@ const Projects = () => {
     const track = trackRef.current
     const container = containerRef.current
     const progressBar = progressBarRef.current
-    
+
     if (!track || !container || typeof window === 'undefined') return
 
     // Calculate total scrollable width
     const slideWidth = window.innerWidth
     const totalSlides = projects.length
     const totalWidth = slideWidth * (totalSlides - 1)
-    
+
     const scrollTriggerInstance = gsap.to(track, {
       x: -totalWidth,
       ease: 'none',
@@ -64,10 +63,12 @@ const Projects = () => {
         end: () => `+=${totalWidth + window.innerHeight * 0.5}`,
         pin: true,
         scrub: 1,
+        pinSpacing: true,
+        anticipatePin: 1,
         onUpdate: (self) => {
           const prog = self.progress
           setProgress(prog)
-          
+
           // Update current slide
           const slideProgress = prog * totalSlides
           const currentIndex = Math.min(Math.floor(slideProgress) + 1, totalSlides)
@@ -93,58 +94,72 @@ const Projects = () => {
         {projects.map((project, index) => (
           <div
             key={project.id}
-            className="min-w-full h-full flex items-center px-6 md:px-12"
+            className="min-w-full h-full flex items-center justify-center"
           >
-            <div className="container mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                {/* Left Content */}
-                <div>
-                  <div className="text-sm font-bold text-primary-orange tracking-widest mb-6 uppercase">
-                    {project.label}
-                  </div>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-italiana font-normal mb-2 leading-tight text-text-dark dark:text-text-light">
-                    {project.titleHighlight ? (
-                      <>
-                        {project.title}<br />
-                        <span className="font-serif italic">{project.titleHighlight}</span>
-                      </>
-                    ) : (
-                      project.title
-                    )}
-                  </h2>
-                  {project.subtitle && (
-                    <p className="text-xl md:text-2xl mb-6 text-gray-600 dark:text-text-secondary">
-                      {project.subtitle}
-                    </p>
-                  )}
-                  <p className="text-lg md:text-xl text-gray-700 dark:text-text-secondary mb-8 max-w-xl">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-3 mb-8">
-                    {project.tags.map((tag, i) => (
-                      <span
-                        key={i}
-                        className="px-4 py-2 bg-gray-200 dark:bg-bg-secondary-dark text-sm font-semibold text-text-dark dark:text-text-light rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+            {/* Full Screen Container */}
+            <div className="w-full h-full bg-bg-light dark:bg-bg-dark flex flex-col lg:flex-row px-8 md:px-12 lg:px-16 py-8 md:py-12 lg:py-16">
+              {/* Left Side - Text Content */}
+              <div className="w-full lg:w-1/2 flex flex-col justify-start items-start pr-0 lg:pr-12">
+                <span
+                  className="text-xs md:text-sm uppercase tracking-wider text-text-dark dark:text-text-light mb-8"
+                  style={{
+                    fontFamily: 'Inter Variable, Inter, sans-serif',
+                    fontWeight: 500
+                  }}
+                >
+                  {project.label}
+                </span>
 
-                {/* Right Content - Image */}
-                <div className="relative">
-                  <div className="rounded-3xl overflow-hidden shadow-2xl">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-[400px] lg:h-[600px] object-cover"
-                      loading="lazy"
-                      decoding="async"
-                      width={800}
-                      height={600}
-                    />
-                  </div>
+                <h2
+                  className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium text-text-dark dark:text-text-light leading-tight mb-8"
+                  style={{
+                    fontFamily: 'Inter Variable, Inter, sans-serif',
+                    fontWeight: 500,
+                    letterSpacing: '-0.02em'
+                  }}
+                >
+                  {project.titleHighlight ? (
+                    <>
+                      {project.title}<br />
+                      <span
+                        style={{
+                          fontFamily: 'Italiana, serif',
+                          fontWeight: 400,
+                          fontSize: '64px',
+                          lineHeight: '120%',
+                          letterSpacing: '-0.02em'
+                        }}
+                      >
+                        {project.titleHighlight}
+                      </span>
+                    </>
+                  ) : (
+                    project.title
+                  )}
+                </h2>
+
+                <p
+                  className="text-base md:text-lg text-gray-700 dark:text-text-secondary max-w-md"
+                  style={{
+                    fontFamily: 'Inter Variable, Inter, sans-serif',
+                    fontWeight: 400,
+                    lineHeight: '160%'
+                  }}
+                >
+                  {project.description}
+                </p>
+              </div>
+
+              {/* Right Side - Image */}
+              <div className="w-full lg:w-1/2 flex items-start justify-start pt-0 lg:pt-0">
+                <div className="relative w-full aspect-[16/10] overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               </div>
             </div>
@@ -152,24 +167,43 @@ const Projects = () => {
         ))}
       </div>
 
-      {/* Progress Bar and Counter */}
-      <div className="absolute bottom-8 left-6 md:left-12 right-6 md:right-12 z-10">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <MagneticButton className="bg-primary-orange text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-opacity-90 transition-all">
-              View All Projects
-            </MagneticButton>
-            <div className="text-2xl font-bold text-text-dark dark:text-text-light">
-              {currentSlide}/{projects.length}
-            </div>
+      {/* Bottom Bar with Counter and Button - at the very bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 bg-bg-light dark:bg-bg-dark border-t border-gray-300 dark:border-gray-700">
+        {/* Progress Bar - above the counter and button */}
+        <div className="w-full h-1 bg-transparent">
+          <div
+            ref={progressBarRef}
+            className="h-full transition-all duration-100"
+            style={{
+              width: `${progress * 100}%`,
+              backgroundColor: 'rgba(14, 14, 14, 0.4)'
+            }}
+          />
+        </div>
+
+        <div className="px-6 md:px-12 lg:px-20 py-6 flex items-center justify-between">
+          {/* Counter */}
+          <div
+            className="text-xl md:text-2xl font-medium text-text-dark dark:text-text-light"
+            style={{
+              fontFamily: 'Inter Variable, Inter, sans-serif',
+              fontWeight: 500
+            }}
+          >
+            {currentSlide}/{projects.length}
           </div>
-          <div className="w-full h-1 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div
-              ref={progressBarRef}
-              className="h-full bg-primary-orange transition-all duration-100"
-              style={{ width: `${progress * 100}%` }}
-            />
-          </div>
+
+          {/* View All Button */}
+          <MagneticButton
+            className="bg-bg-light dark:bg-bg-dark text-text-dark dark:text-text-light px-8 py-3 rounded-md text-base font-medium hover:opacity-80 transition-all"
+            style={{
+              fontFamily: 'Inter Variable, Inter, sans-serif',
+              fontWeight: 500,
+              border: '1px solid rgba(14, 14, 14, 0.4)'
+            }}
+          >
+            View All Project
+          </MagneticButton>
         </div>
       </div>
     </section>

@@ -87,13 +87,10 @@ const Hero = () => {
                 const currentCenterX = innerRect.left + innerRect.width / 2;
                 const currentCenterY = innerRect.top + innerRect.height / 2;
 
-                // Target: image left edge at 30px from screen left, top at 60px from top
-                const targetLeft = 30;
-                const targetTop = 60;
-
-                // Calculate the center position after scaling to maintain the 30px left gap
-                const targetCenterX = targetLeft + scaledWidth / 2;
-                const targetCenterY = targetTop + scaledHeight / 2;
+                // Target: image should be positioned with 30px from left and 60px from top
+                // Calculate the center position of the scaled image to achieve this
+                const targetCenterX = 30 + scaledWidth / 2;
+                const targetCenterY = 60 + scaledHeight / 2;
 
                 // Calculate how much to move
                 const targetX = targetCenterX - currentCenterX;
@@ -101,7 +98,6 @@ const Hero = () => {
 
                 // Text movement
                 const moveUpDistanceTop = -topText.offsetHeight - 50;
-                const moveLeftDistanceBottom = -(bottomRow.getBoundingClientRect().width + 100);
 
                 // Two-phase animation: Phase 1 = scaling, Phase 2 = hold then auto-scroll to next
                 const SCALE_DURATION = window.innerHeight * 1.2; // Time for scaling animation
@@ -123,9 +119,6 @@ const Hero = () => {
 
                 // --- Phase 1: Texts fade, image scales (40% of timeline) ---
                 tlDesktop
-                    // Ensure bottom-left starts at full opacity
-                    .set('#hero-bottom-left', { opacity: 1 }, 0)
-
                     // 1. Move top text and badge (fade out)
                     .to('#hero-top', {
                         y: moveUpDistanceTop,
@@ -133,10 +126,9 @@ const Hero = () => {
                         duration: 0.4,
                         ease: 'power1.inOut'
                     }, 0)
-                    // 2. Bottom-left text moves off-screen to the left, stays visible
+                    // 2. Bottom-left text fades out but stays in place
                     .to('#hero-bottom-left', {
-                        x: moveLeftDistanceBottom,
-                        opacity: 1, // Keep visible while moving off-screen
+                        opacity: 0,
                         duration: 0.4,
                         ease: 'power1.inOut'
                     }, 0)
@@ -242,42 +234,36 @@ const Hero = () => {
         <section
             ref={heroRef}
             id="hero-section"
-            className="w-full bg-bg-light dark:bg-bg-dark pt-[60px] sm:pt-[90px] lg:pt-[120px] pb-20 px-[20px] md:px-[30px] lg:px-[40px] relative min-h-screen transition-colors duration-300"
+            className="w-full bg-white dark:bg-[#0e0e0e] pt-[60px] sm:pt-[90px] lg:pt-[120px] pb-20 px-[20px] md:px-[30px] lg:px-[40px] relative min-h-screen transition-colors duration-300"
             // REMOVED: overflow-hidden to allow the scaled image to cover the screen
         >
             <div className="w-full">
                 {/* Top Row - Typewriter Text */}
                 <div id="hero-top" className="mb-16 md:mb-24 will-change-transform" style={{ minHeight: '330px' }}>
                     <h1 id="hero-headline"
-                        className="text-[#0e0e0e] dark:text-[#e2e2e2]
-                                    text-4xl md:text-6xl lg:text-5xl xl:text-[128px]"
-                        style={{
-                            fontFamily: 'Inter Variable, Inter, sans-serif',
-                            fontWeight: 500,
-                            lineHeight: '120%',
-                            letterSpacing: '-0.04em'
-                        }}>
+                        className="leading-tight text-[#0e0e0e] dark:text-[#e2e2e2]
+                                    text-4xl md:text-6xl lg:text-5xl xl:text-[96px]"
+                        style={{ letterSpacing: '-4%', lineHeight: '120%' }}>
                         {displayedText.split(' ').map((word, index) => {
                             const isLastPart = word.includes('digital') || word.includes('culture')
-                            const shouldBreak = word.includes('style')
                             return (
                                 <span key={index}>
-                                    {shouldBreak && <br className="lg:block" />}
+                                    {word.includes('digital') && <br className="lg:block" />}
                                     <span
                                         data-word={word}
                                         className={isLastPart ? 'font-serif italic' : ''}
                                         style={isLastPart ? {
-                                            fontFamily: 'Libre Caslon Text, serif',
+                                            fontFamily: 'Libre Caslon Text',
                                             fontWeight: 400,
                                             fontSize: '0.8em',
                                             fontStyle: 'italic',
-                                            letterSpacing: '-0.04em',
+                                            letterSpacing: '-4%',
                                             lineHeight: '120%'
                                         } : {
-                                            fontFamily: 'Inter Variable, Inter, sans-serif',
+                                            fontFamily: 'Inter Variable',
                                             fontWeight: 500,
                                             fontSize: 'inherit',
-                                            letterSpacing: '-0.04em',
+                                            letterSpacing: '-4%',
                                             lineHeight: '120%'
                                         }}
                                     >
@@ -294,21 +280,12 @@ const Hero = () => {
                     {/* Bottom Left - Text and Button */}
                     <div id="hero-bottom-left" className="w-full lg:w-1/2 will-change-transform">
                         <p id="hero-subtext"
-                            className="text-base md:text-xl text-gray-700 dark:text-[#e2e2e2b2] mb-8 max-w-xl"
-                            style={{
-                                fontFamily: 'Inter Variable, Inter, sans-serif',
-                                fontWeight: 400,
-                                lineHeight: '150%'
-                            }}>
+                            className="text-base md:text-xl text-gray-700 dark:text-[#e2e2e2b2] mb-8 max-w-xl">
                             We create clean designs that turn visitors into paying clients. You
                             get a professional look that makes selling your services very easy.
                         </p>
                         <div id="hero-cta">
-                            <MagneticButton className="bg-primary-orange text-white px-8 py-4 full text-lg font-medium hover:bg-opacity-90 transition-all"
-                                style={{
-                                    fontFamily: 'Inter Variable, Inter, sans-serif',
-                                    fontWeight: 500
-                                }}>
+                            <MagneticButton className="bg-primary-orange text-white px-8 py-4 full text-lg font-medium hover:bg-opacity-90 transition-all">
                                 View Our Work
                             </MagneticButton>
                         </div>

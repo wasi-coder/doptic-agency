@@ -1,14 +1,16 @@
-import { useEffect, useRef } from 'react'
-import MagneticButton from './MagneticButton'
+import { useEffect, useRef, useState } from 'react'
 import ThemeToggle from './ThemeToggle'
+import Button from './MagneticButton'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import MagneticButton from './MagneticButton'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const Navbar = ({ onMenuClick }) => {
   const navRef = useRef(null)
   const lastScrollY = useRef(0)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const nav = navRef.current
@@ -66,43 +68,106 @@ const Navbar = ({ onMenuClick }) => {
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-50 bg-transparent backdrop-blur-sm"
     >
-      {/* Container with same padding as Hero section */}
-      <div className="container mx-auto px-6 md:px-12 py-6 flex items-center justify-between">
-        {/* Logo - Left aligned */}
-        <div className="flex items-center h-full">
-          <img 
-            src="/logos/doptic_logo_light.svg" 
-            alt="Doptic Logo" 
-            className="h-8 md:h-10 lg:h-12 dark:hidden"
-            loading="eager"
-            decoding="async"
-          />
-          <img 
-            src="/logos/doptic_logo_dark.svg" 
-            alt="Doptic Logo" 
-            className="h-8 md:h-10 lg:h-12 hidden dark:block"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
+      {/* Container */}
+      <div className=" border w-full max-w-full h-[80px] mx-auto  px-[20px] md:px-[30px] lg:px-[60px]">
+        <div className="flex justify-between items-center h-full py-[10px] sm:py-[15px] lg:py-[10px]">
+          
+          {/* Logo Section - With Dark/Light Mode Support */}
+          <div className="flex items-center gap-[4px]">
+            <img 
+              src="/logos/doptic_logo_light.svg" 
+              alt="Doptic Logo Icon"
+              className="w-[96px] h-[96px] dark:hidden"
+              loading="eager"
+              decoding="async"
+            />
+            <img 
+              src="/logos/doptic_logo_dark.svg" 
+              alt="Doptic Logo Icon"
+              className="w-[96px] h-[96px] hidden dark:block"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
 
-        {/* Menu & Hamburger - Right aligned */}
-        <div className="flex items-center gap-4 h-full">
-          <ThemeToggle />
-          <div className="flex items-center gap-3 h-full">
-            <MagneticButton
+          {/* Desktop Navigation - Theme Toggle + Button + Hamburger */}
+          <div className="hidden lg:flex items-center gap-[20px]">
+            <ThemeToggle />
+            <Button
+              text="Menu"
+              text_font_size="16"
+              text_font_family="Inter Variable"
+              text_font_weight="400"
+              text_line_height="20px"
+              text_text_align="left"
+              text_color="#ffffff"
+              fill_background_color="#ff4920"
+              padding="8px 20px"
+              layout_width="auto"
+              border_border_radius="12px"
               onClick={onMenuClick}
-              className="bg-primary-orange text-white px-6 py-3 rounded flex items-center gap-2 font-medium hover:bg-opacity-90 transition-all"
+              magnetic={true}
+            />
+            <button 
+              onClick={onMenuClick}
+              className="cursor-pointer"
+              aria-label="Open menu"
             >
-              <span>Menu</span>
-            </MagneticButton>
-            <div className="flex flex-col justify-center gap-[5px]">
-              <span className="w-12 h-0.5 bg-text-dark dark:bg-white"></span>
-              <span className="w-8 h-0.5 bg-text-dark dark:bg-white"></span>
-              <span className="w-4 h-0.5 bg-text-dark dark:bg-white"></span>
-            </div>
+               <img 
+                src="/images/hamburg.svg" 
+                alt="Menu icon"
+                className="w-[30px] h-[12px] dark:hidden"
+              />
+              <img 
+                src="/images/hamburgdark.svg" 
+                alt="Menu icon"
+                className="w-[30px] h-[12px] hiddden dark:block"
+              />
+            </button>
+          </div>
+
+          {/* Mobile - Theme Toggle + Hamburger */}
+          <div className="flex lg:hidden items-center gap-3">
+            <ThemeToggle />
+            <button 
+              className="p-2" 
+              aria-label="Open menu"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <img 
+                src="/images/hamburg.svg" 
+                alt="Menu icon"
+                className="w-[30px] h-[12px] dark:hidden"
+              />
+              <img 
+                src="/images/hamburgdark.svg" 
+                alt="Menu icon"
+                className="w-[30px] h-[12px] hiddden dark:block"
+              />
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <nav className={`${menuOpen ? 'block' : 'hidden'} lg:hidden pb-4`}>
+          <div className="flex flex-col gap-4">
+            <MagneticButton
+              text="Menu"
+              text_font_size="16"
+              text_font_family="Inter Variable"
+              text_font_weight="400"
+              text_line_height="20px"
+              text_text_align="center"
+              text_color="#ffffff"
+              fill_background_color="#ff4920"
+              padding="12px 24px"
+              layout_width="100%"
+              border_border_radius="12px"
+              onClick={onMenuClick}
+              magnetic={true}
+            />
+          </div>
+        </nav>
       </div>
     </nav>
   )

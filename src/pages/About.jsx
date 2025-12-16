@@ -11,97 +11,113 @@ const About = () => {
   const marqueeRef = useRef(null)
   const marqueeInnerRef = useRef(null)
 
-  useEffect(() => {
+  const FONT_INTER = 'Inter Variable, sans-serif'
+  const FONT_CASLON = 'Libre Caslon Text, serif'
+
+useEffect(() => {
     const statement = statementRef.current
     const image = imageRef.current
     const marquee = marqueeRef.current
     const marqueeInner = marqueeInnerRef.current
 
-    // Statement reveal animation
-    gsap.fromTo(
-      statement,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        scrollTrigger: {
-          trigger: statement,
-          start: 'top 80%',
-          end: 'bottom 60%',
-          toggleActions: 'play none none none',
-        },
-      }
-    )
+    // Using gsap.context for organized cleanup
+    let ctx = gsap.context(() => {
+        const PIN_DURATION = 2000
+        const images = ['#about-img-1', '#about-img-2', '#about-img-3']
+        const fadeDuration = 0.1
 
-    // Image parallax
-    gsap.to(image, {
-      y: -50,
-      scrollTrigger: {
-        trigger: aboutRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    })
+        // 1. Statement Fade-In Animation
+        gsap.fromTo(
+            statement,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: statement,
+                    start: 'top 80%',
+                    end: 'bottom 60%',
+                },
+            }
+        )
 
-    // Continuous auto-scroll animation for the text (independent of scroll)
-    const autoScroll = gsap.to(marqueeInner, {
-      xPercent: -50,
-      duration: 20,
-      ease: 'none',
-      repeat: -1,
-    })
+        // 2. Image Parallax
+        gsap.to(image, {
+            y: -50,
+            scrollTrigger: {
+                trigger: aboutRef.current,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1,
+            },
+        })
 
-    // Marquee container scroll-controlled animation
-    // Container moves from left to right with scroll
-    ScrollTrigger.create({
-      trigger: aboutRef.current,
-      start: 'top top',
-      end: '+=2000', // Pin for 2000px - ends when marquee reaches right edge
-      pin: true,
-      pinSpacing: true,
-      scrub: 1, // Smooth scrubbing tied directly to scroll
-      onUpdate: (self) => {
-        // Move container from -100vw to 100vw based on progress (0 to 1)
-        const xPos = gsap.utils.interpolate(-100, 100, self.progress)
-        gsap.set(marquee, { x: `${xPos}vw` })
-      },
-    })
+        // 3. Marquee Auto-Scroll (captured within ctx, so ctx.revert() will kill it)
+        gsap.to(marqueeInner, { // Removed 'const autoScroll =' as it's not strictly necessary with ctx.revert()
+            xPercent: -50,
+            duration: 30,
+            ease: 'none',
+            repeat: -1,
+        })
 
+        // 4. Marquee Scroll-Triggered Positioning (Pinning and Horizontal Move)
+        ScrollTrigger.create({
+            trigger: aboutRef.current,
+            start: 'top top',
+            end: `+=${PIN_DURATION}`,
+            pin: true,
+            scrub: 1,
+            pinSpacing: true, // Ensure proper spacing so next section doesn't overlap
+            onUpdate: self => {
+                // Horizontal parallax for the entire marquee container
+                const xPos = gsap.utils.interpolate(-100, 100, self.progress)
+                gsap.set(marquee, { x: `${xPos}vw` })
+            },
+        })
+
+        // 5. Image Cross-Fade Timeline (Scrubbed with the pin)
+        gsap.timeline({ // Removed 'const tl =' as it's not strictly necessary with ctx.revert()
+            scrollTrigger: {
+                trigger: aboutRef.current,
+                start: 'top top',
+                end: `+=${PIN_DURATION}`,
+                scrub: 1,
+            },
+        })
+        .to(images[0], { opacity: 0, duration: fadeDuration }, 0.3)
+        .to(images[1], { opacity: 1, duration: fadeDuration }, 0.3)
+        .to(images[1], { opacity: 0, duration: fadeDuration }, 0.65)
+        .to(images[2], { opacity: 1, duration: fadeDuration }, 0.65)
+
+    }, aboutRef)
+
+    // FIX APPLIED HERE: The cleanup function now correctly calls ctx.revert()
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
-      autoScroll.kill()
+        // This line ensures all animations (including autoScroll) and ScrollTriggers
+        // created within the context are properly killed when the component unmounts.
+        ctx.revert() 
     }
-  }, [])
+}, [])
 
   return (
     <section
       ref={aboutRef}
-      className="min-h-screen bg-black py-20 px-6 md:px-12 relative overflow-hidden"
       id="about"
+      className="relative min-h-screen overflow-hidden bg-bg-light dark:bg-bg-dark px-6 py-20 transition-colors duration-300"
     >
-      {/* Single Diagonal Marquee - container moves with scroll, text always animates */}
-      <div className="absolute top-1/2 left-0 right-0 transform -translate-y-1/2 rotate-[5deg] overflow-visible pointer-events-none will-change-transform">
-        <div
-          ref={marqueeRef}
-          className="will-change-transform"
-          style={{ width: '200%' }}
-        >
+      {/* Marquee */}
+      <div className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2 rotate-[5deg]">
+        <div ref={marqueeRef} style={{ width: '200%' }}>
           <div
             ref={marqueeInnerRef}
-            className="flex whitespace-nowrap bg-primary-orange py-6"
-            style={{ width: '200%' }}
+            className="flex w-[200%] whitespace-nowrap bg-[#FF4920] py-6"
           >
             {[...Array(20)].map((_, i) => (
               <span
                 key={i}
-                className="text-4xl md:text-5xl lg:text-[64px] font-normal text-white mx-8"
-                style={{ 
-                  fontFamily: 'Italiana, serif',
-                  lineHeight: '120%',
-                  letterSpacing: '-0.02em'
-                }}
+                className="mx-8 text-[48px] font-normal text-white"
+                style={{ fontFamily: 'Italiana, serif' }}
               >
                 About us •
               </span>
@@ -110,36 +126,49 @@ const About = () => {
         </div>
       </div>
 
-      <div className="container mx-auto relative z-10 flex flex-col items-center justify-center min-h-screen">
-        {/* Main headline - ABOVE the image with transparent effect */}
-        <div className="max-w-4xl text-center relative z-20 mix-blend-difference">
-          <p
+      <div className="relative z-10 mx-auto flex min-h-[80vh] max-w-6xl flex-col items-center justify-center">
+        {/* Headline */}
+        <div className="mb-14 max-w-[900px] text-center">
+          <h2
             ref={statementRef}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-white mb-6 drop-shadow-lg"
+            className="text-[48px] font-medium leading-[1.2] text-text-dark dark:text-text-light"
+            style={{ fontFamily: FONT_INTER }}
           >
-            Igniting creativity through futuristic design,{' '}
-            <span className="text-lime-400 italic font-serif">glowing</span>{' '}
-            energy, and the pulse of innovation.
-          </p>
+            Turning ambitious ideas into high-impact digital reality{' '}
+            <span
+              className="font-normal italic"
+              style={{ fontFamily: FONT_CASLON }}
+            >
+              through expert craft
+            </span>
+            , clarity, and collaboration.
+          </h2>
         </div>
 
-        {/* Centered Image */}
-        <div ref={imageRef} className="relative mt-8">
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-full max-w-[280px] sm:max-w-[340px] md:max-w-[380px] lg:w-[410px] h-auto aspect-[410/520]">
+        {/* Image – MID SIZE APPLIED TO ALL SCREENS */}
+        <div ref={imageRef} className="relative z-20">
+          <div className="relative w-[260px] aspect-[410/520] overflow-hidden rounded-2xl shadow-2xl">
             <img
+              id="about-img-1"
               src="/images/aboutusimage1.svg"
-              alt="VR Person"
-              className="w-full h-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ opacity: 1 }}
             />
-            {/* Glowing halo effect */}
-            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-lime-500/20" />
+            <img
+              id="about-img-2"
+              src="/images/aboutusimage2.svg"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ opacity: 0 }}
+            />
+            <img
+              id="about-img-3"
+              src="/images/aboutusimage1.svg"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ opacity: 0 }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-transparent to-lime-500/20" />
           </div>
         </div>
-
-        {/* Description text - BELOW the image */}
-        <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto text-center mt-8 drop-shadow-md">
-          Where imagination and technology collide in a bold, futuristic aesthetic. Our work blends neon glow, experimental design, and sharp creative strategy.
-        </p>
       </div>
     </section>
   )

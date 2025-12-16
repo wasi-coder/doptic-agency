@@ -10,6 +10,7 @@ const Services = () => {
   const slidesRef = useRef([])
   const itemsRef = useRef([])
 
+
   const services = [
     { name: "UI/UX Design", image: "/images/servicesimage1.svg" },
     { name: "Custom Web Development", image: "/images/servicesimage2.svg" },
@@ -24,12 +25,15 @@ const Services = () => {
     const ctx = gsap.context(() => {
       const listItems = itemsRef.current
       const slides = slidesRef.current
+      const ANIMATION_SCROLL_LENGTH = listItems.length * 60; 
+      const SCROLL_BUFFER_PERCENT = 100;
+
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=" + listItems.length * 60 + "%",
+          end: `+=${ANIMATION_SCROLL_LENGTH + SCROLL_BUFFER_PERCENT}%`,
           pin: true,
           scrub: 0.5,
         },
