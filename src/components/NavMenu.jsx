@@ -1,193 +1,259 @@
-import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { gsap } from 'gsap'
-import { IoClose } from 'react-icons/io5'
-import { FaInstagram, FaLinkedin, FaYoutube, FaDiscord } from 'react-icons/fa'
+import { useState, useRef, useEffect } from "react"
+import { X } from "lucide-react"
+import gsap from "gsap"
+import { useTheme } from '../context/ThemeContext'
+import ThemeToggle from './ThemeToggle'
+import MagneticButton from './MagneticButton'
 
-const NavMenu = ({ isOpen, onClose }) => {
-  const menuRef = useRef(null)
-  const linksRef = useRef(null)
-  const subLinksRef = useRef(null)
+export default function NavMenu({ isOpen, onClose }) {
+  const { theme } = useTheme()
+  const [activeNavItem, setActiveNavItem] = useState(null)
+  const [isMiddleVisible, setIsMiddleVisible] = useState(false)
+  const [isImageVisible, setIsImageVisible] = useState(false)
+  const [activeMiddleItem, setActiveMiddleItem] = useState(null)
+
+  const middleSectionRef = useRef(null)
   const imageRef = useRef(null)
-  const footerRef = useRef(null)
+  const leftNavRef = useRef(null)
+  const underlineRef = useRef(null)
+
+  const navItems = ["Home", "About", "Projects", "Services", "Blogs", "Contact Us"]
+  const middleItems = ["Link Two", "Link Three", "Link Four", "Link Five"]
 
   useEffect(() => {
-    const menu = menuRef.current
-    const links = linksRef.current
-    const subLinks = subLinksRef.current
-    const image = imageRef.current
-    const footer = footerRef.current
-
-    if (isOpen) {
-      // Open animation
-      gsap.set(menu, { display: 'flex' })
-      
-      const tl = gsap.timeline()
-      
-      tl.to(menu, {
-        opacity: 1,
-        duration: 0.3,
-        ease: 'power2.out',
-      })
-      .fromTo(
-        links.children,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.05,
-          duration: 0.6,
-          ease: 'power3.out',
-        },
-        '-=0.1'
-      )
-      .fromTo(
-        subLinks.children,
-        { opacity: 0, x: -30 },
-        {
-          opacity: 1,
-          x: 0,
-          stagger: 0.05,
-          duration: 0.6,
-          ease: 'power3.out',
-        },
-        '-=0.4'
-      )
-      .fromTo(
-        image,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          ease: 'back.out(1.7)',
-        },
-        '-=0.4'
-      )
-      .fromTo(
-        footer,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'power3.out',
-        },
-        '-=0.3'
-      )
-    } else {
-      // Close animation
-      gsap.to(menu, {
-        opacity: 0,
-        duration: 0.3,
-        ease: 'power2.in',
-        onComplete: () => {
-          gsap.set(menu, { display: 'none' })
-        },
-      })
+    if (middleSectionRef.current && imageRef.current) {
+      gsap.set(middleSectionRef.current, { opacity: 0, x: -20 })
+      gsap.set(imageRef.current, { opacity: 0, x: 20 })
     }
   }, [isOpen])
 
-  const mainLinks = [
-    { name: 'Home', path: '/', isHash: false },
-    { name: 'About', path: '#about', isHash: true },
-    { name: 'Projects', path: '#projects', isHash: true },
-    { name: 'Services', path: '#services', isHash: true },
-    { name: 'Blogs', path: '#blog', isHash: true },
-    { name: 'Contact Us', path: '#contact', isHash: true }
-  ]
-  const subMenuLinks = ['Design Agency', 'Link Two', 'Link Three', 'Link Four', 'Link Five']
+  const handleLeftNavHover = (isHovering) => {
+    if (isMiddleVisible) return
 
-  const handleLinkClick = (link) => {
-    if (link.isHash) {
-      // For hash links, smooth scroll to section
-      const element = document.querySelector(link.path)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
+    if (middleSectionRef.current) {
+      if (isHovering) {
+        gsap.to(middleSectionRef.current, {
+          opacity: 1,
+          x: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        })
+      } else {
+        gsap.to(middleSectionRef.current, {
+          opacity: 0,
+          x: -20,
+          duration: 0.3,
+          ease: "power2.in",
+        })
+        if (imageRef.current && !isImageVisible) {
+          gsap.to(imageRef.current, {
+            opacity: 0,
+            x: 20,
+            duration: 0.3,
+            ease: "power2.in",
+          })
+        }
       }
     }
-    onClose()
   }
 
+  const handleMiddleSectionHover = (isHovering) => {
+    if (isImageVisible) return
+
+    if (imageRef.current) {
+      if (isHovering) {
+        gsap.to(imageRef.current, {
+          opacity: 1,
+          x: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        })
+      } else {
+        gsap.to(imageRef.current, {
+          opacity: 0,
+          x: 20,
+          duration: 0.3,
+          ease: "power2.in",
+        })
+      }
+    }
+  }
+
+  const handleNavItemClick = (item, index) => {
+    setActiveNavItem(item)
+    setIsMiddleVisible(true)
+
+    if (middleSectionRef.current) {
+      gsap.to(middleSectionRef.current, {
+        opacity: 1,
+        x: 0,
+        duration: 0.4,
+        ease: "power2.out",
+      })
+    }
+
+    if (underlineRef.current) {
+      const targetElement = document.getElementById(`nav-${index}`)
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect()
+        const parentRect = leftNavRef.current?.getBoundingClientRect()
+        if (parentRect) {
+          const top = rect.top - parentRect.top
+          gsap.to(underlineRef.current, {
+            y: top,
+            duration: 0.5,
+            ease: "power3.out",
+          })
+        }
+      }
+    }
+  }
+
+  const handleMiddleItemClick = (item) => {
+    setActiveMiddleItem(item)
+    setIsImageVisible(true)
+
+    if (imageRef.current) {
+      gsap.to(imageRef.current, {
+        opacity: 1,
+        x: 0,
+        duration: 0.4,
+        ease: "power2.out",
+      })
+    }
+  }
+
+  if (!isOpen) return null
+
   return (
-    <div
-      ref={menuRef}
-      className="fixed inset-0 z-[100] bg-white/95 backdrop-blur-md hidden opacity-0"
-      style={{ display: 'none' }}
-    >
-      <div className="container mx-auto h-full px-6 md:px-12 py-6">
-        {/* Close Button */}
-        <div className="flex justify-end mb-8">
-          <button
-            onClick={onClose}
-            className="text-4xl text-text-dark hover:text-primary-orange transition-colors"
+    <div className={`fixed inset-0 ${theme === 'dark' ? "bg-bg-dark" : "bg-bg-light"} z-50 overflow-hidden transition-colors duration-300`}>
+      {/* Orange decorative border */}
+      <div className="absolute top-0 left-0 right-0 h-2 " />
+      <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r" />
+      <div className="absolute top-0 bottom-0 left-0 w-2 bg-gradient-to-b " />
+      <div className="absolute top-0 bottom-0 right-0 w-2 bg-gradient-to-b " />
+
+      <div className="relative h-full flex flex-col">
+        {/* Header */}
+        <header className="flex items-center justify-between px-6 md:px-12 py-6">
+          <div className="flex items-center gap-2">
+            <img
+              src="/logos/doptic_logo_light.svg"
+              alt="Doptic Logo"
+              className="w-[96px] h-[96px] dark:hidden"
+            />
+            <img
+              src="/logos/doptic_logo_dark.svg"
+              alt="Doptic Logo"
+              className="w-[96px] h-[96px] hidden dark:block"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <MagneticButton
+              className="bg-primary-orange hover:bg-[#e64a2e] text-white font-normal px-6 py-2 "
+              onClick={onClose}
+            >
+              Menu
+            </MagneticButton>
+            <button
+              onClick={onClose}
+              className={`w-10 h-10 flex items-center justify-center rounded ${theme === 'dark' ? "hover:bg-gray-800" : "hover:bg-gray-200"} transition-colors`}
+              aria-label="Close menu"
+            >
+              <X className={`w-6 h-6 ${theme === 'dark' ? "text-text-light" : "text-text-dark"}`} />
+            </button>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <div className="flex-1 px-6 md:px-12 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
+          {/* Left Navigation */}
+          <div
+            ref={leftNavRef}
+            className="space-y-6 relative"
+            onMouseEnter={() => handleLeftNavHover(true)}
+            onMouseLeave={() => handleLeftNavHover(false)}
           >
-            <IoClose />
-          </button>
-        </div>
+            <div
+              ref={underlineRef}
+              className={`absolute left-0 w-24 h-0.5 ${theme === 'dark' ? "bg-text-light" : "bg-text-dark"} transition-opacity ${activeNavItem ? "opacity-100" : "opacity-0"}`}
+              style={{ top: 0 }}
+            />
 
-        {/* Menu Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-15 h-[calc(100%-150px)]">
-          {/* Main Navigation */}
-          <div ref={linksRef} className="flex flex-col justify-center space-y-4">
-            {mainLinks.map((link, index) => (
-              <div key={index} className="group relative flex items-center">
-                {link.isHash ? (
-                  <a
-                    href={link.path}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleLinkClick(link)
-                    }}
-                    className="text-xl md:text-2xl lg:text-[24px] font-medium text-text-dark opacity-40 hover:opacity-100 hover:scale-110 hover:translate-x-6 origin-left transition-all duration-300"
-                    style={{ 
-                      fontFamily: 'Inter Variable, Inter, sans-serif',
-                      lineHeight: '120%',
-                      letterSpacing: '-0.04em'
-                    }}
-                  >
-                    {link.name}
-                  </a>
-                ) : (
-                  <Link
-                    to={link.path}
-                    onClick={() => handleLinkClick(link)}
-                    className="text-xl md:text-2xl lg:text-[24px] font-medium text-text-dark opacity-40 hover:opacity-100 hover:scale-110 hover:translate-x-6 origin-left transition-all duration-300"
-                    style={{ 
-                      fontFamily: 'Inter Variable, Inter, sans-serif',
-                      lineHeight: '120%',
-                      letterSpacing: '-0.04em'
-                    }}
-                  >
-                    {link.name}
-                  </Link>
-                )}
-                {/* Horizontal line on right - appears on hover */}
-                <span className="absolute right-0 top-1/2 -translate-y-1/2 h-1 w-0 bg-primary-orange group-hover:w-24 transition-all duration-300" />
-              </div>
-            ))}
+            <nav className="space-y-4">
+              {navItems.map((item, index) => (
+                <button
+                  key={item}
+                  id={`nav-${index}`}
+                  onClick={() => handleNavItemClick(item, index)}
+                  className={`block text-xl md:text-2xl lg:text-3xl text-left transition-colors ${
+                    activeNavItem === item
+                      ? theme === 'dark'
+                        ? "text-text-light"
+                        : "text-text-dark"
+                      : theme === 'dark'
+                        ? "text-gray-400 hover:text-text-light"
+                        : "text-gray-500 hover:text-text-dark"
+                  }`}
+                  style={{
+                    fontFamily: 'Inter Variable, Inter, sans-serif',
+                    fontWeight: activeNavItem === item ? 500 : 400
+                  }}
+                >
+                  {item}
+                </button>
+              ))}
+            </nav>
           </div>
 
-          {/* Sub Links */}
-          <div ref={subLinksRef} className="flex flex-col justify-center space-y-3">
-            {subMenuLinks.map((link, index) => (
-              <a
-                key={index}
-                href="#"
-                onClick={onClose}
-                className="text-lg text-gray-600 hover:text-primary-orange transition-colors duration-300"
-              >
-                {link}
-              </a>
-            ))}
+          {/* Middle Section */}
+          <div
+            ref={middleSectionRef}
+            className="space-y-6"
+            onMouseEnter={() => handleMiddleSectionHover(true)}
+            onMouseLeave={() => handleMiddleSectionHover(false)}
+          >
+            <h3
+              className={`text-lg font-normal ${theme === 'dark' ? "text-text-light" : "text-text-dark"}`}
+              style={{
+                fontFamily: 'Inter Variable, Inter, sans-serif',
+                fontWeight: 500
+              }}
+            >
+              Design Agency
+            </h3>
+            <nav className="space-y-3">
+              {middleItems.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => handleMiddleItemClick(item)}
+                  className={`block text-base text-left transition-colors ${
+                    activeMiddleItem === item
+                      ? theme === 'dark'
+                        ? "text-text-light"
+                        : "text-text-dark"
+                      : theme === 'dark'
+                        ? "text-gray-400 hover:text-text-light"
+                        : "text-gray-500 hover:text-text-dark"
+                  }`}
+                  style={{
+                    fontFamily: 'Inter Variable, Inter, sans-serif',
+                    fontWeight: 400
+                  }}
+                >
+                  {item}
+                </button>
+              ))}
+            </nav>
           </div>
 
-          {/* Image */}
-          <div ref={imageRef} className="hidden md:flex items-center justify-center">
-            <div className="w-full h-96 rounded-2xl overflow-hidden">
+          {/* Right Image */}
+          <div ref={imageRef} className="flex items-start justify-center md:justify-end">
+            <div className="w-[400px] h-[400px] bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 rounded-lg overflow-hidden shadow-lg transition-colors duration-300">
               <img
-                src="/images/NavMenuImage.svg"
-                alt="Fashion"
+                src="/images/homepageImage.svg"
+                alt="Featured"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -195,43 +261,51 @@ const NavMenu = ({ isOpen, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div
-          ref={footerRef}
-          className="absolute bottom-0 left-0 right-0 bg-primary-orange px-6 md:px-12 py-6"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-white font-medium">Follow Us</span>
-            <div className="flex items-center gap-6">
-              <a
-                href="#"
-                className="text-white text-2xl hover:scale-110 transition-transform"
-              >
-                <FaInstagram />
-              </a>
-              <a
-                href="#"
-                className="text-white text-2xl hover:scale-110 transition-transform"
-              >
-                <FaLinkedin />
-              </a>
-              <a
-                href="#"
-                className="text-white text-2xl hover:scale-110 transition-transform"
-              >
-                <FaYoutube />
-              </a>
-              <a
-                href="#"
-                className="text-white text-2xl hover:scale-110 transition-transform"
-              >
-                <FaDiscord />
-              </a>
-            </div>
+        <footer className="bg-primary-orange px-6 md:px-12 py-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <a
+              href="#"
+              className="text-white hover:underline text-sm font-normal transition-opacity hover:opacity-80"
+              style={{
+                fontFamily: 'Inter Variable, Inter, sans-serif',
+                fontWeight: 400
+              }}
+            >
+              Instagram
+            </a>
+            <a
+              href="#"
+              className="text-white hover:underline text-sm font-normal transition-opacity hover:opacity-80"
+              style={{
+                fontFamily: 'Inter Variable, Inter, sans-serif',
+                fontWeight: 400
+              }}
+            >
+              LinkedIn
+            </a>
+            <a
+              href="#"
+              className="text-white hover:underline text-sm font-normal transition-opacity hover:opacity-80"
+              style={{
+                fontFamily: 'Inter Variable, Inter, sans-serif',
+                fontWeight: 400
+              }}
+            >
+              Youtube
+            </a>
+            <a
+              href="#"
+              className="text-white hover:underline text-sm font-normal transition-opacity hover:opacity-80"
+              style={{
+                fontFamily: 'Inter Variable, Inter, sans-serif',
+                fontWeight: 400
+              }}
+            >
+              Discord
+            </a>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   )
 }
-
-export default NavMenu

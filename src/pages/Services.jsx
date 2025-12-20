@@ -1,15 +1,16 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useTheme } from '../context/ThemeContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const Services = () => {
+  const { theme } = useTheme()
   const sectionRef = useRef(null)
-  const fillRef = useRef(null)
+  const listContainerRef = useRef(null)
   const slidesRef = useRef([])
   const itemsRef = useRef([])
-
 
   const services = [
     { name: "UI/UX Design", image: "/images/servicesimage1.svg" },
@@ -18,184 +19,202 @@ const Services = () => {
     { name: "Mobile App Design", image: "/images/servicesimage4.svg" },
     { name: "Ecommerce Store Design", image: "/images/servicesimage1.svg" },
     { name: "Digital Growth Strategy", image: "/images/servicesimage2.svg" },
-    { name: "Landing Design", image: "/images/servicesimage3.svg" }
+    { name: "Banding Design", image: "/images/servicesimage3.svg" }
   ]
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const listItems = itemsRef.current
       const slides = slidesRef.current
-      const ANIMATION_SCROLL_LENGTH = listItems.length * 60; 
-      const SCROLL_BUFFER_PERCENT = 100;
+      const activeColor = theme === 'dark' ? "rgb(226, 226, 226)" : "rgb(14, 14, 14)"
 
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: `+=${ANIMATION_SCROLL_LENGTH + SCROLL_BUFFER_PERCENT}%`,
-          pin: true,
-          scrub: 0.5,
-        },
-      })
-
-      // Fill bar animation - starts with 1/length height
-      gsap.set(fillRef.current, {
-        scaleY: 1 / listItems.length,
-        transformOrigin: "top",
+      // Set z-index for stacking effect
+      gsap.set(slides, {
+        zIndex: (i, target, targets) => targets.length - i
       })
 
       // Set initial states for all items
       listItems.forEach((item, i) => {
-        if (i === 0) {
-          // First item starts active and popped out
-          gsap.set(item, { 
-            color: "rgb(255, 107, 74)", // primary-orange color
-            filter: "blur(0px)", 
-            opacity: 1,
-            scale: 1.05,
-            x: 10,
-            zIndex: 10
-          })
-          gsap.set(slides[i], { autoAlpha: 1 })
-        } else {
-          // Other items start inactive and pushed back
-          gsap.set(item, { 
-            color: "rgba(156, 163, 175, 0.5)", // gray color
-            filter: "blur(2px)", 
-            opacity: 0.4,
-            scale: 0.95,
-            x: 0,
-            zIndex: 1
-          })
-          gsap.set(slides[i], { autoAlpha: 0 })
+        const textDiv = item.querySelector('.service-text')
+        const orangeBar = item.querySelector('.orange-bar')
+
+        gsap.set(textDiv, {
+          color: "rgba(192, 192, 192, 1)",
+          fontWeight: 400,
+          fontSize: "1em"
+        })
+
+        gsap.set(orangeBar, {
+          backgroundColor: "rgba(192, 192, 192, 1)",
+          transformOrigin: "left center"
+        })
+      })
+
+      // Set all images to full height initially
+      gsap.set(slides, { height: "100%" })
+
+      // Create image stacking animations
+      slides.forEach((slide, i) => {
+        if (i < slides.length - 1) { // Don't animate the last image
+          gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: () => "top -" + (window.innerHeight * (i + 0.5)),
+              end: () => "+=" + window.innerHeight,
+              scrub: true,
+              invalidateOnRefresh: true,
+            }
+          }).to(slide, { height: 0 })
         }
       })
 
+      // Create text highlight animations with orange bar
       listItems.forEach((item, i) => {
-        const prevItem = listItems[i - 1]
+        const textDiv = item.querySelector('.service-text')
+        const orangeBar = item.querySelector('.orange-bar')
 
-        if (prevItem) {
-          // Activate current item with pop-out effect
-          tl.to(item, { 
-            color: "rgb(255, 107, 74)", // primary-orange
-            filter: "blur(0px)", 
-            opacity: 1,
-            scale: 1.05,
-            x: 10,
-            zIndex: 10,
-            duration: 0.3,
-            ease: "power2.out"
-          }, 0.5 * i)
-            .to(slides[i], { autoAlpha: 1, duration: 0.3 }, "<")
-            // Deactivate previous item - push it back
-            .to(prevItem, { 
-              color: "rgba(156, 163, 175, 0.5)", 
-              filter: "blur(2px)", 
-              opacity: 0.4,
-              scale: 0.95,
-              x: 0,
-              zIndex: 1,
-              duration: 0.3,
-              ease: "power2.out"
-            }, "<")
-            .to(slides[i - 1], { autoAlpha: 0, duration: 0.3 }, "<")
-        }
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: () => "top -" + (window.innerHeight * i),
+            end: () => "+=" + window.innerHeight,
+            scrub: true,
+            invalidateOnRefresh: true,
+          }
+        })
+        .to(textDiv, {
+          duration: 0.33,
+          color: activeColor,
+          fontWeight: 500,
+          fontSize: "2.15em",
+          ease: "power2.out"
+        })
+        .to(orangeBar, {
+          duration: 0.33,
+          backgroundColor: "#FF6B35",
+        }, 0)
+        .to(textDiv, {
+          duration: 0.33,
+          color: "rgba(192, 192, 192, 1)",
+          fontWeight: 400,
+          fontSize: "1.75em",
+          ease: "power2.in"
+        }, 0.66)
+        .to(orangeBar, {
+          duration: 0.33,
+          backgroundColor: "rgba(192, 192, 192, 1)",
+        }, 0.66)
       })
 
-      // Animate progress bar fill
-      tl.to(fillRef.current, {
-        scaleY: 1,
-        ease: "none",
-        duration: tl.duration(),
-      }, 0)
+      // Pin the section - extend scroll duration to cover all items
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: () => "+=" + (listItems.length * window.innerHeight * 0.8),
+        pin: true,
+        scrub: true,
+        invalidateOnRefresh: true,
+      })
+
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [theme])
 
   return (
-    <section 
-      ref={sectionRef} 
-      className="h-screen bg-bg-light dark:bg-bg-dark flex items-center transition-colors duration-300 overflow-hidden"
+    <section
+      ref={sectionRef}
+      className="bg-[#e2e2e2] dark:bg-bg-dark transition-colors duration-300 overflow-hidden h-screen flex items-center px-[30px]"
       id="services"
     >
-      <div className="w-full h-full flex flex-col lg:flex-row items-center">
-        {/* Header - Above on mobile, integrated on desktop */}
-        <div className="lg:hidden px-6 md:px-12 py-8">
-          <p className="text-sm uppercase tracking-widest text-primary-orange mb-4 font-semibold">
+      <div className="flex flex-col items-center gap-4 md:gap-6 lg:gap-8 w-full h-full py-6 md:py-8 lg:py-12 justify-center">
+        {/* Header Section */}
+        <div className="flex flex-col relative z-[100] items-start gap-1 md:gap-2 w-full max-w-[1290px] shrink-0">
+          <div className="font-medium text-[#0e0e0e] dark:text-text-light text-xs md:text-sm lg:text-base tracking-[2px] leading-[20px] uppercase">
             SERVICE
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-text-dark dark:text-text-light leading-tight">
-            We make your <span className="font-serif italic">complex ideas</span> simple and beautiful.
+          </div>
+
+          <h2 className="font-normal text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl tracking-tight leading-tight">
+            <span className="font-medium text-[#0e0e0e] dark:text-text-light">
+              We make your{" "}
+            </span>
+            <span className="font-serif italic text-[#0e0e0e] dark:text-text-light">
+              complex ideas{" "}
+            </span>
+            <span className="font-medium text-[#0e0e0e] dark:text-text-light">
+              simple <br />and beautiful.
+            </span>
           </h2>
         </div>
 
-        {/* LEFT - Service List */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 md:px-12 lg:pl-20 lg:pr-8">
-          {/* Header for desktop */}
-          <div className="hidden lg:block mb-8">
-            <p className="text-sm uppercase tracking-widest text-primary-orange mb-4 font-semibold">
-              SERVICE
-            </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-dark dark:text-text-light leading-tight max-w-xl">
-              We make your <span className="font-serif italic">complex ideas</span> simple and beautiful.
-            </h2>
+        {/* Services List and Image Container */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 md:gap-8 lg:gap-10 xl:gap-12 w-full max-w-[1290px] relative flex-1">
+          {/* LEFT - Service List with Gradient Overlay */}
+          <div className="relative w-full lg:flex-1 h-full flex items-start justify-center overflow-hidden">
+            <div
+              ref={listContainerRef}
+              className="flex flex-col w-full items-start relative z-10 py-4"
+            >
+              {services.map((service, i) => (
+                <div
+                  key={i}
+                  ref={(el) => (itemsRef.current[i] = el)}
+                  className="flex flex-col items-start py-3 md:py-4 lg:py-5 w-full service-item relative"
+                  style={{ willChange: 'transform, color, opacity' }}
+                >
+                  <div className="service-border w-full relative pb-2">
+                    <div className="service-text transition-all duration-200 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight relative z-10">
+                      {service.name}
+                    </div>
+                    {/* Gray Bar - turns orange when active */}
+                    <div className="orange-bar absolute bottom-0 left-0 w-full h-[2px]" style={{ transformOrigin: 'left center', backgroundColor: 'rgba(192, 192, 192, 1)' }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Gradient Overlay - Light Mode */}
+            <div className="hidden lg:block dark:lg:hidden absolute top-0 left-0 w-full h-full pointer-events-none z-20"
+                 style={{
+                   background: 'linear-gradient(180deg, rgba(226,226,226,1) 0%, rgba(226,226,226,0) 12%, rgba(226,226,226,0) 88%, rgba(226,226,226,1) 100%)'
+                 }}
+            />
+            {/* Gradient Overlay - Dark Mode */}
+            <div className="hidden dark:lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-20"
+                 style={{
+                   background: 'linear-gradient(180deg, rgba(14,14,14,1) 0%, rgba(14,14,14,0) 12%, rgba(14,14,14,0) 88%, rgba(14,14,14,1) 100%)'
+                 }}
+            />
           </div>
 
-          <ul className="space-y-0">
-            {services.map((service, i) => (
-              <li 
-                key={i}
-                ref={(el) => (itemsRef.current[i] = el)}
-                className="relative py-3 md:py-4 border-b border-gray-300 dark:border-gray-700 cursor-pointer transition-all origin-left"
-                style={{ willChange: 'transform, filter, opacity' }}
-              >
-                <div className="flex items-center">
-                  {/* Active indicator line */}
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-orange opacity-0" 
-                       style={{ opacity: i === 0 ? 1 : 0 }} />
-                  
-                  <span className="text-xl md:text-2xl lg:text-3xl font-bold">
-                    {service.name}
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Progress Line - Hidden on mobile */}
-        <div className="hidden lg:flex w-1 bg-gray-300 dark:bg-gray-700 relative self-center h-[50vh] max-h-[400px]">
-          <div 
-            ref={fillRef} 
-            className="absolute w-full bg-primary-orange top-0"
-            style={{ height: '100%' }}
-          />
-        </div>
-
-        {/* RIGHT - Images */}
-        <div className="w-full lg:w-1/2 h-[40vh] lg:h-[70vh] max-h-[500px] flex items-center justify-center px-6 md:px-12 lg:px-8">
-          <div className="relative w-full h-full max-w-lg">
-            {services.map((service, i) => (
-              <div
-                key={i}
-                ref={(el) => (slidesRef.current[i] = el)}
-                className="absolute inset-0 opacity-0 invisible flex items-center justify-center"
-              >
-                <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 shadow-xl">
-                  <img 
-                    src={service.image} 
+          {/* RIGHT - Images and Button */}
+          <div className="flex flex-col items-center lg:items-end justify-center gap-6 md:gap-8 w-full lg:w-auto">
+            {/* Image Container - Stacked */}
+            <div className="relative w-[520px] h-[520px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px] xl:w-[350px] xl:h-[350px] overflow-hidden">
+              {services.map((service, i) => (
+                <div
+                  key={i}
+                  ref={(el) => (slidesRef.current[i] = el)}
+                  className="absolute top-0 left-0 right-0 bottom-0 w-full h-full flex items-center justify-center overflow-hidden"
+                  style={{ willChange: 'height' }}
+                >
+                  <img
+                    src={service.image}
                     alt={service.name}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
-                    width={400}
-                    height={500}
                   />
                 </div>
+              ))}
+            </div>
+
+            {/* View All Services Button */}
+            <button className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-solid border-[#0e0e0e66] dark:border-gray-500 hover:bg-[#0e0e0e0d] dark:hover:bg-gray-800 transition-colors bg-[#e2e2e2] dark:bg-bg-dark">
+              <div className="font-medium text-[#0e0e0e] dark:text-text-light text-sm md:text-base leading-[24px] whitespace-nowrap">
+                View All Services
               </div>
-            ))}
+            </button>
           </div>
         </div>
       </div>

@@ -22,9 +22,9 @@ useEffect(() => {
 
     // Using gsap.context for organized cleanup
     let ctx = gsap.context(() => {
-        const PIN_DURATION = 2000
+        const PIN_DURATION = 750
         const images = ['#about-img-1', '#about-img-2', '#about-img-3']
-        const fadeDuration = 0.1
+        const fadeDuration = 0.5
 
         // 1. Statement Fade-In Animation
         gsap.fromTo(
@@ -76,19 +76,17 @@ useEffect(() => {
             },
         })
 
-        // 5. Image Cross-Fade Timeline (Scrubbed with the pin)
-        gsap.timeline({ // Removed 'const tl =' as it's not strictly necessary with ctx.revert()
-            scrollTrigger: {
-                trigger: aboutRef.current,
-                start: 'top top',
-                end: `+=${PIN_DURATION}`,
-                scrub: 1,
-            },
+        // 5. Auto Image Cross-Fade Timeline (changes every 1 second)
+        gsap.timeline({
+            repeat: -1,
+            repeatDelay: 0
         })
-        .to(images[0], { opacity: 0, duration: fadeDuration }, 0.3)
-        .to(images[1], { opacity: 1, duration: fadeDuration }, 0.3)
-        .to(images[1], { opacity: 0, duration: fadeDuration }, 0.65)
-        .to(images[2], { opacity: 1, duration: fadeDuration }, 0.65)
+        .to(images[0], { opacity: 0, duration: fadeDuration }, 1)
+        .to(images[1], { opacity: 1, duration: fadeDuration }, 1)
+        .to(images[2], { opacity: 0, duration: fadeDuration }, 2)
+        .to(images[0], { opacity: 1, duration: fadeDuration }, 2)
+        .to(images[2], { opacity: 0, duration: fadeDuration }, 3)
+        .to(images[1], { opacity: 1, duration: fadeDuration }, 3)
 
     }, aboutRef)
 

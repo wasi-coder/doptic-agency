@@ -40,19 +40,19 @@ const faqItems = [
 // --- Component Definition ---
 export const FaqSection = ()=> {
   return (
-    <section className=" border flex flex-col w-full items-start gap-16 px-[75px] py-[120px] bg-[#e2e2e2]">
+    <section className=" border flex flex-col w-full items-start gap-16 px-[75px] py-[120px] bg-bg-light dark:bg-bg-dark transition-colors duration-300">
       <header className="max-w-[768px] gap-3 flex flex-col items-start opacity-1 translate-y-[-1rem] animate-fade-in [--animation-delay:0ms]">
         <h2 className="w-full [font-family:'Inter_Variable-Medium',Helvetica] font-normal text-transparent text-7xl leading-[72px]">
-          <span className="font-medium text-[#0e0e0e] tracking-[-2.07px] leading-[86.4px]">
+          <span className="font-medium text-text-dark dark:text-text-light tracking-[-2.07px] leading-[86.4px]">
             Got Questions?
             <br />
             We&apos;ve{" "}
           </span>
-          <span className="[font-family:'Libre_Caslon_Text',Helvetica] italic text-[#0e0e0e] tracking-[-2.07px] leading-[86.4px]">
+          <span className="[font-family:'Libre_Caslon_Text',Helvetica] italic text-text-dark dark:text-text-light tracking-[-2.07px] leading-[86.4px]">
             Got Answers
           </span>
         </h2>
-        <p className="w-full text-[#0e0e0eb2] text-lg leading-[28.8px] [font-family:'Inter_Variable-Regular',Helvetica] font-normal tracking-[0]">
+        <p className="w-full text-gray-700 dark:text-text-secondary text-lg leading-[28.8px] [font-family:'Inter_Variable-Regular',Helvetica] font-normal tracking-[0]">
           Getting started is made simple and transparent right from day one. We
           guide you through every step with us.
         </p>
@@ -68,16 +68,16 @@ export const FaqSection = ()=> {
           <AccordionItem
             key={item.id}
             value={item.id}
-            className="border-[#0e0e0e1a] px-[30px]"
+            className="border-gray-300 dark:border-gray-700 px-[30px]"
           >
             <AccordionTrigger className="py-[30px] gap-6 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-              <span className="flex-1 text-left [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-[32px] tracking-[-1.28px] leading-[38.4px]">
+              <span className="flex-1 text-left [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-text-dark dark:text-text-light text-[32px] tracking-[-1.28px] leading-[38.4px]">
                 {item.question}
               </span>
             </AccordionTrigger>
             {item.answer && (
               <AccordionContent className="pt-0 pb-[30px]">
-                <p className="text-[#0e0e0eb2] text-xl leading-8 [font-family:'Inter_Variable-Regular',Helvetica] font-normal tracking-[0]">
+                <p className="text-gray-700 dark:text-text-secondary text-xl leading-8 [font-family:'Inter_Variable-Regular',Helvetica] font-normal tracking-[0]">
                   {item.answer}
                 </p>
               </AccordionContent>

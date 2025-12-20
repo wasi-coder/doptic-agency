@@ -195,7 +195,7 @@ const Projects = () => {
 
           {/* View All Button */}
           <MagneticButton
-            className="bg-bg-light dark:bg-bg-dark text-text-dark dark:text-text-light px-8 py-3 rounded-md text-base font-medium hover:opacity-80 transition-all"
+            className="bg-bg-light dark:bg-bg-dark text-text-dark dark:text-text-light px-8 py-3  text-base font-medium hover:opacity-80 transition-all"
             style={{
               fontFamily: 'Inter Variable, Inter, sans-serif',
               fontWeight: 500,

@@ -20,7 +20,7 @@ const Hero = () => {
             setDisplayedText('')
 
             // --- Initial Load Animation (Typewriter Effect) ---
-            gsap.set(['#hero-bottom-left', '#hero-image-container', '#hero-circular-badge'],
+            gsap.set(['#hero-bottom-left', '#hero-image-container', '#hero-circular-badge', '#scroll-down-icon'],
                 { opacity: 0, x: 0 })
 
             let tlInitial = gsap.timeline();
@@ -54,7 +54,21 @@ const Hero = () => {
                 { opacity: 0, scale: 0.5 },
                 { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' },
                 '>-1'
+            )
+            // Fade in the scroll-down icon
+            .fromTo('#scroll-down-icon',
+                { opacity: 0, scale: 0.8 },
+                { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' },
+                '<0.2'
             );
+
+            // Continuous rotation for scroll-down icon
+            gsap.to('#scroll-down-icon', {
+                rotation: 360,
+                duration: 8,
+                ease: 'none',
+                repeat: -1
+            });
 
 
             // --- Scroll Trigger Animation (Responsive Logic) ---
@@ -146,6 +160,12 @@ const Hero = () => {
                         duration: 0.4,
                         ease: 'power1.inOut'
                     }, 0)
+                    .to('#scroll-down-icon', {
+                        y: moveUpDistanceTop,
+                        opacity: 0,
+                        duration: 0.4,
+                        ease: 'power1.inOut'
+                    }, 0)
 
                     // 3. Image transformation - scale from center while moving to final position
                     .set(innerImageDiv, {
@@ -225,6 +245,13 @@ const Hero = () => {
                         scale: 0.5,
                         duration: 0.5,
                         ease: 'power1.out',
+                    }, 1.0)
+
+                    .to('#scroll-down-icon', {
+                        opacity: 0,
+                        y: -window.innerHeight * 0.3,
+                        duration: 0.5,
+                        ease: 'power1.out',
                     }, 1.0);
             });
             
@@ -247,7 +274,20 @@ const Hero = () => {
         >
             <div className="w-full">
                 {/* Top Row - Typewriter Text */}
-                <div id="hero-top" className="mb-16 md:mb-24 will-change-transform" style={{ minHeight: '330px' }}>
+                <div id="hero-top" className="mb-6 md:mb-14 will-change-transform relative" style={{ minHeight: '330px' }}>
+                    {/* Scroll Down Icon - Positioned beside the text */}
+                    <div
+                        id="scroll-down-icon"
+                        className="absolute top-0 right-0 pointer-events-none will-change-transform"
+                        style={{ zIndex: 1000 }}
+                    >
+                        <img
+                            src="/logos/scrolldown.svg"
+                            alt="Scroll down"
+                            className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28"
+                        />
+                    </div>
+
                     <h1 id="hero-headline"
                         className="text-[#0e0e0e] dark:text-[#e2e2e2]
                                     text-4xl md:text-6xl lg:text-5xl xl:text-[128px]"
@@ -328,7 +368,6 @@ const Hero = () => {
                                 />
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>

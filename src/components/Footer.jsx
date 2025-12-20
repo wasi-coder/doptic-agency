@@ -4,20 +4,20 @@ import React from "react";
 
 export const CallToActionSection = ()=> {
   return (
-    <section className="flex flex-col w-full items-center gap-20 px-[75px] py-[200px] bg-[#ff4920]">
+    <section className="flex flex-col w-full items-center gap-20 px-[75px] py-[200px] bg-[#ff4920] transition-colors duration-300">
       <div className="flex flex-col items-center gap-3.5 relative w-full">
         <h2 className="w-fit font-normal text-transparent text-9xl text-center leading-[128px] relative mt-[-1.00px] [font-family:'Inter_Variable-Medium',Helvetica] translate-y-[-1rem] animate-fade-in opacity-1 [--animation-delay:200ms]">
-          <span className="font-medium text-[#0e0e0e] tracking-[-6.55px] leading-[153.6px]">
+          <span className="font-medium text-text-dark dark:text-text-light tracking-[-6.55px] leading-[153.6px]">
             GOT AN IDEA?
             <br />
           </span>
 
-          <span className="[font-family:'Libre_Caslon_Text',Helvetica] italic text-[#0e0e0e] tracking-[-6.55px] leading-[153.6px]">
+          <span className="[font-family:'Libre_Caslon_Text',Helvetica] italic text-text-dark dark:text-text-light tracking-[-6.55px] leading-[153.6px]">
             LET&#39;S TALK
           </span>
         </h2>
 
-        <p className="text-[#0e0e0e] text-lg text-center leading-[28.8px] relative [font-family:'Inter_Variable-Regular',Helvetica] font-normal tracking-[0] max-w-full translate-y-[-1rem] animate-fade-in opacity-1 [--animation-delay:400ms]">
+        <p className="text-text-dark dark:text-text-light text-lg text-center leading-[28.8px] relative [font-family:'Inter_Variable-Regular',Helvetica] font-normal tracking-[0] max-w-full translate-y-[-1rem] animate-fade-in opacity-1 [--animation-delay:400ms]">
           We craft design experiences that leave a lasting impression bold,
           purposeful, and deeply human.
         </p>
@@ -65,13 +65,13 @@ const socialLinks = [
 
 export const FooterSection = ()=> {
   return (
-    <footer className="w-full items-center gap-16 pt-[120px] pb-5 px-[75px] bg-[#e2e2e2] flex flex-col relative">
+    <footer className="w-full items-center gap-16 pt-[120px] pb-5 px-[75px] bg-bg-light dark:bg-bg-dark flex flex-col relative">
      
       <div className="grid grid-cols-10 w-full">
 
         <div className="flex items-start gap-8 flex-1 col-span-4">
           <nav className="items-start gap-4 flex-1 flex flex-col">
-            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-2xl tracking-[-0.96px] leading-[28.8px]">
+            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-text-dark dark:text-text-light text-2xl tracking-[-0.96px] leading-[28.8px]">
               Company
             </h3>
 
@@ -83,7 +83,7 @@ export const FooterSection = ()=> {
                 >
                   <a
                     href="#"
-                    className="flex-1 [font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] hover:text-[#0e0e0e] transition-colors"
+                    className="flex-1 [font-family:'Inter_Variable-Regular',Helvetica] font-normal text-gray-700 dark:text-text-secondary text-base tracking-[0] leading-[25.6px] hover:text-text-dark dark:text-text-light transition-colors"
                   >
                     {link.label}
                   </a>
@@ -93,7 +93,7 @@ export const FooterSection = ()=> {
           </nav>
 
           <nav className="items-start gap-4 flex-1 flex flex-col">
-            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-2xl tracking-[-0.96px] leading-[28.8px]">
+            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-text-dark dark:text-text-light text-2xl tracking-[-0.96px] leading-[28.8px]">
               Support
             </h3>
 
@@ -105,7 +105,7 @@ export const FooterSection = ()=> {
                 >
                   <a
                     href="#"
-                    className="flex-1 [font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] hover:text-[#0e0e0e] transition-colors"
+                    className="flex-1 [font-family:'Inter_Variable-Regular',Helvetica] font-normal text-gray-700 dark:text-text-secondary text-base tracking-[0] leading-[25.6px] hover:text-text-dark dark:text-text-light transition-colors"
                   >
                     {link.label}
                   </a>
@@ -115,7 +115,7 @@ export const FooterSection = ()=> {
           </nav>
 
           <nav className="items-start gap-4 flex-1 flex flex-col">
-            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-2xl tracking-[-0.96px] leading-[28.8px]">
+            <h3 className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-text-dark dark:text-text-light text-2xl tracking-[-0.96px] leading-[28.8px]">
               Social
             </h3>
 
@@ -128,7 +128,7 @@ export const FooterSection = ()=> {
                   <img className="w-6 h-6" alt={link.label} src={link.icon} />
                   <a
                     href="#"
-                    className="[font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] whitespace-nowrap hover:text-[#0e0e0e] transition-colors"
+                    className="[font-family:'Inter_Variable-Regular',Helvetica] font-normal text-gray-700 dark:text-text-secondary text-base tracking-[0] leading-[25.6px] whitespace-nowrap hover:text-text-dark dark:text-text-light transition-colors"
                   >
                     {link.label}
                   </a>
@@ -141,7 +141,7 @@ export const FooterSection = ()=> {
         <div className="text-end gap-6 col-span-6">
           <a
             href="mailto:hello@info.com"
-            className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-[64px] text-right tracking-[-2.56px] leading-[76.8px] hover:opacity-70 transition-opacity"
+            className="self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-text-dark dark:text-text-light text-[64px] text-right tracking-[-2.56px] leading-[76.8px] hover:opacity-70 transition-opacity"
           >
             hello@info.com
           </a>
@@ -149,7 +149,7 @@ export const FooterSection = ()=> {
 
       </div>
 
-        <h2 className="text-start self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-[#0e0e0e] text-9xl tracking-[0] leading-[153.6px]">
+        <h2 className="text-start self-stretch [font-family:'Inter_Variable-Medium',Helvetica] font-medium text-text-dark dark:text-text-light text-9xl tracking-[0] leading-[153.6px]">
           Doptic
         </h2>
 
@@ -157,7 +157,7 @@ export const FooterSection = ()=> {
           <div className="w-full max-w-[700px] h-px bg-[#0e0e0e1a]" />
 
           <div className="flex items-center justify-center gap-16 w-full mb-10">
-            <p className="[font-family:'Inter_Variable-Regular',Helvetica] font-normal text-[#0e0e0eb2] text-base tracking-[0] leading-[25.6px] whitespace-nowrap">
+            <p className="[font-family:'Inter_Variable-Regular',Helvetica] font-normal text-gray-700 dark:text-text-secondary text-base tracking-[0] leading-[25.6px] whitespace-nowrap">
               Copyright ©Doptic – Where designs meet the future.
             </p>
           </div>

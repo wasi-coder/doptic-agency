@@ -23,27 +23,18 @@ const Navbar = ({ onMenuClick }) => {
       { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
     )
 
-    // Scroll animation
+    // Scroll animation - only show in hero section
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       const heroHeight = window.innerHeight
 
-      if (currentScrollY > heroHeight * 0.5) {
-        if (currentScrollY > lastScrollY.current) {
-          // Scrolling down - hide navbar
-          gsap.to(nav, {
-            y: -100,
-            duration: 0.4,
-            ease: 'power2.inOut',
-          })
-        } else {
-          // Scrolling up - show navbar
-          gsap.to(nav, {
-            y: 0,
-            duration: 0.4,
-            ease: 'power2.inOut',
-          })
-        }
+      if (currentScrollY > heroHeight * 0.8) {
+        // Past hero section - hide navbar permanently
+        gsap.to(nav, {
+          y: -100,
+          duration: 0.4,
+          ease: 'power2.inOut',
+        })
       } else {
         // In hero section - always visible
         gsap.to(nav, {
@@ -118,10 +109,10 @@ const Navbar = ({ onMenuClick }) => {
                 alt="Menu icon"
                 className="w-[30px] h-[12px] dark:hidden"
               />
-              <img 
-                src="/images/hamburgdark.svg" 
+              <img
+                src="/images/hamburgdark.svg"
                 alt="Menu icon"
-                className="w-[30px] h-[12px] hiddden dark:block"
+                className="w-[30px] h-[12px] hidden dark:block"
               />
             </button>
           </div>
@@ -139,10 +130,10 @@ const Navbar = ({ onMenuClick }) => {
                 alt="Menu icon"
                 className="w-[30px] h-[12px] dark:hidden"
               />
-              <img 
-                src="/images/hamburgdark.svg" 
+              <img
+                src="/images/hamburgdark.svg"
                 alt="Menu icon"
-                className="w-[30px] h-[12px] hiddden dark:block"
+                className="w-[30px] h-[12px] hidden dark:block"
               />
             </button>
           </div>
