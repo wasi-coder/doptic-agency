@@ -1,164 +1,108 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import ThemeToggle from './ThemeToggle'
 import Button from './MagneticButton'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import MagneticButton from './MagneticButton'
+import { useTheme } from '../context/ThemeContext' // Added this to handle line colors
 
-gsap.registerPlugin(ScrollTrigger)
-
-const Navbar = ({ onMenuClick }) => {
+const Navbar = ({ onMenuClick, menuOpen }) => {
+  const { theme } = useTheme()
   const navRef = useRef(null)
-  const lastScrollY = useRef(0)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const line1Ref = useRef(null)
+  const line2Ref = useRef(null)
 
+  // 1. Core Logic: Initial Load and Scroll Behavior
   useEffect(() => {
     const nav = navRef.current
     if (!nav) return
 
-    // Initial animation
     gsap.fromTo(
       nav,
       { y: -100, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
     )
 
-    // Scroll animation - only show in hero section
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       const heroHeight = window.innerHeight
 
-      if (currentScrollY > heroHeight * 0.8) {
-        // Past hero section - hide navbar permanently
-        gsap.to(nav, {
-          y: -100,
-          duration: 0.4,
-          ease: 'power2.inOut',
-        })
-      } else {
-        // In hero section - always visible
-        gsap.to(nav, {
-          y: 0,
-          duration: 0.4,
-          ease: 'power2.inOut',
-        })
-      }
+      // If menu is open, don't hide the navbar on scroll
+      if (menuOpen) return;
 
-      lastScrollY.current = currentScrollY
+      if (currentScrollY > heroHeight * 0.8) {
+        gsap.to(nav, { y: -100, duration: 0.4, ease: 'power2.inOut' })
+      } else {
+        gsap.to(nav, { y: 0, duration: 0.4, ease: 'power2.inOut' })
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [menuOpen])
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
+  // 2. Logic Change: Hamburger to X Animation
+  useEffect(() => {
+    if (menuOpen) {
+      // Transform to X
+      gsap.to(line1Ref.current, { rotation: 45, y: 4, duration: 0.4, ease: "power2.inOut" })
+      gsap.to(line2Ref.current, { rotation: -45, y: -4, duration: 0.4, ease: "power2.inOut" })
+    } else {
+      // Transform back to Hamburger
+      gsap.to(line1Ref.current, { rotation: 0, y: 0, duration: 0.4, ease: "power2.inOut" })
+      gsap.to(line2Ref.current, { rotation: 0, y: 0, duration: 0.4, ease: "power2.inOut" })
     }
-  }, [])
+  }, [menuOpen])
 
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 bg-transparent backdrop-blur-sm"
+      className="fixed top-0 left-0 right-0 z-[100] bg-transparent backdrop-blur-sm"
     >
-      {/* Container */}
-      <div className=" border w-full max-w-full h-[80px] mx-auto  px-[20px] md:px-[30px] lg:px-[60px]">
-        <div className="flex justify-between items-center h-full py-[10px] sm:py-[15px] lg:py-[10px]">
+      <div className="w-full max-w-full h-[80px] mx-auto px-[20px] md:px-[30px] lg:px-[60px]">
+        <div className="flex justify-between items-center h-full">
           
-          {/* Logo Section - With Dark/Light Mode Support */}
-          <div className="flex items-center gap-[4px]">
+          {/* Logo Section */}
+          <div className="flex items-center">
             <img 
-              src="/logos/doptic_logo_light.svg" 
-              alt="Doptic Logo Icon"
-              className="w-[96px] h-[96px] dark:hidden"
-              loading="eager"
-              decoding="async"
-            />
-            <img 
-              src="/logos/doptic_logo_dark.svg" 
-              alt="Doptic Logo Icon"
-              className="w-[96px] h-[96px] hidden dark:block"
-              loading="eager"
-              decoding="async"
+              src={theme === 'dark' ? "/logos/doptic_logo_dark.svg" : "/logos/doptic_logo_light.svg"} 
+              alt="Doptic Logo"
+              className="w-[96px] h-[96px]"
             />
           </div>
 
-          {/* Desktop Navigation - Theme Toggle + Button + Hamburger */}
-          <div className="hidden lg:flex items-center gap-[20px]">
+          {/* Controls */}
+          <div className="flex items-center gap-[20px]">
             <ThemeToggle />
-            <Button
-              text="Menu"
-              text_font_size="16"
-              text_font_family="Inter Variable"
-              text_font_weight="400"
-              text_line_height="20px"
-              text_text_align="left"
-              text_color="#ffffff"
-              fill_background_color="#ff4920"
-              padding="8px 20px"
-              layout_width="auto"
-              border_border_radius="12px"
-              onClick={onMenuClick}
-              magnetic={true}
-            />
-            <button 
-              onClick={onMenuClick}
-              className="cursor-pointer"
-              aria-label="Open menu"
-            >
-               <img 
-                src="/images/hamburg.svg" 
-                alt="Menu icon"
-                className="w-[30px] h-[12px] dark:hidden"
+            
+            <div className="hidden lg:block">
+              <Button
+                text="Menu"
+                fill_background_color="#ff4920"
+                onClick={onMenuClick}
+                magnetic={true}
               />
-              <img
-                src="/images/hamburgdark.svg"
-                alt="Menu icon"
-                className="w-[30px] h-[12px] hidden dark:block"
-              />
-            </button>
-          </div>
+            </div>
 
-          {/* Mobile - Theme Toggle + Hamburger */}
-          <div className="flex lg:hidden items-center gap-3">
-            <ThemeToggle />
+            {/* Animated Hamburger/X Button */}
             <button 
-              className="p-2" 
-              aria-label="Open menu"
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={onMenuClick}
+              className="group flex flex-col items-center justify-center w-8 h-8 gap-[6px] cursor-pointer z-[110]"
+              aria-label="Toggle menu"
             >
-              <img 
-                src="/images/hamburg.svg" 
-                alt="Menu icon"
-                className="w-[30px] h-[12px] dark:hidden"
+              <div 
+                ref={line1Ref}
+                className={`w-7 h-[2px] transition-colors duration-300 ${
+                    menuOpen ? 'bg-white' : (theme === 'dark' ? 'bg-white' : 'bg-black')
+                }`}
               />
-              <img
-                src="/images/hamburgdark.svg"
-                alt="Menu icon"
-                className="w-[30px] h-[12px] hidden dark:block"
+              <div 
+                ref={line2Ref}
+                className={`w-7 h-[2px] transition-colors duration-300 ${
+                    menuOpen ? 'bg-white' : (theme === 'dark' ? 'bg-white' : 'bg-black')
+                }`}
               />
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu Dropdown */}
-        <nav className={`${menuOpen ? 'block' : 'hidden'} lg:hidden pb-4`}>
-          <div className="flex flex-col gap-4">
-            <MagneticButton
-              text="Menu"
-              text_font_size="16"
-              text_font_family="Inter Variable"
-              text_font_weight="400"
-              text_line_height="20px"
-              text_text_align="center"
-              text_color="#ffffff"
-              fill_background_color="#ff4920"
-              padding="12px 24px"
-              layout_width="100%"
-              border_border_radius="12px"
-              onClick={onMenuClick}
-              magnetic={true}
-            />
-          </div>
-        </nav>
       </div>
     </nav>
   )

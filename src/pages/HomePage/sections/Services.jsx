@@ -28,13 +28,11 @@ const Services = () => {
       const slides = slidesRef.current
       const activeColor = theme === 'dark' ? "rgb(226, 226, 226)" : "rgb(14, 14, 14)"
 
-      // Set z-index for stacking effect
       gsap.set(slides, {
         zIndex: (i, target, targets) => targets.length - i
       })
 
-      // Set initial states for all items
-      listItems.forEach((item, i) => {
+      listItems.forEach((item) => {
         const textDiv = item.querySelector('.service-text')
         const orangeBar = item.querySelector('.orange-bar')
 
@@ -50,12 +48,10 @@ const Services = () => {
         })
       })
 
-      // Set all images to full height initially
       gsap.set(slides, { height: "100%" })
 
-      // Create image stacking animations
       slides.forEach((slide, i) => {
-        if (i < slides.length - 1) { // Don't animate the last image
+        if (i < slides.length - 1) {
           gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -68,7 +64,6 @@ const Services = () => {
         }
       })
 
-      // Create text highlight animations with orange bar
       listItems.forEach((item, i) => {
         const textDiv = item.querySelector('.service-text')
         const orangeBar = item.querySelector('.orange-bar')
@@ -106,7 +101,6 @@ const Services = () => {
         }, 0.66)
       })
 
-      // Pin the section - extend scroll duration to cover all items
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
@@ -124,12 +118,13 @@ const Services = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#e2e2e2] dark:bg-bg-dark transition-colors duration-300 overflow-hidden h-screen flex items-center px-[30px]"
+      className="bg-[#e2e2e2] dark:bg-bg-dark transition-colors duration-300 overflow-hidden h-screen flex items-center px-[20px] md:px-[30px] lg:px-[60px]"
       id="services"
     >
       <div className="flex flex-col items-center gap-4 md:gap-6 lg:gap-8 w-full h-full py-6 md:py-8 lg:py-12 justify-center">
-        {/* Header Section */}
-        <div className="flex flex-col relative z-[100] items-start gap-1 md:gap-2 w-full max-w-[1290px] shrink-0">
+        
+        {/* Header Section - Now matches Navbar horizontal span */}
+        <div className="flex flex-col relative z-[100] items-start gap-1 md:gap-2 w-full max-w-full shrink-0">
           <div className="font-medium text-[#0e0e0e] dark:text-text-light text-xs md:text-sm lg:text-base tracking-[2px] leading-[20px] uppercase">
             SERVICE
           </div>
@@ -148,8 +143,9 @@ const Services = () => {
         </div>
 
         {/* Services List and Image Container */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 md:gap-8 lg:gap-10 xl:gap-12 w-full max-w-[1290px] relative flex-1">
-          {/* LEFT - Service List with Gradient Overlay */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 md:gap-8 lg:gap-10 xl:gap-12 w-full max-w-full relative flex-1">
+          
+          {/* LEFT - Service List */}
           <div className="relative w-full lg:flex-1 h-full flex items-start justify-center overflow-hidden">
             <div
               ref={listContainerRef}
@@ -166,31 +162,24 @@ const Services = () => {
                     <div className="service-text transition-all duration-200 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight relative z-10">
                       {service.name}
                     </div>
-                    {/* Gray Bar - turns orange when active */}
                     <div className="orange-bar absolute bottom-0 left-0 w-full h-[2px]" style={{ transformOrigin: 'left center', backgroundColor: 'rgba(192, 192, 192, 1)' }}></div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Gradient Overlay - Light Mode */}
+            {/* Gradients */}
             <div className="hidden lg:block dark:lg:hidden absolute top-0 left-0 w-full h-full pointer-events-none z-20"
-                 style={{
-                   background: 'linear-gradient(180deg, rgba(226,226,226,1) 0%, rgba(226,226,226,0) 12%, rgba(226,226,226,0) 88%, rgba(226,226,226,1) 100%)'
-                 }}
+                 style={{ background: 'linear-gradient(180deg, rgba(226,226,226,1) 0%, rgba(226,226,226,0) 12%, rgba(226,226,226,0) 88%, rgba(226,226,226,1) 100%)' }}
             />
-            {/* Gradient Overlay - Dark Mode */}
             <div className="hidden dark:lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-20"
-                 style={{
-                   background: 'linear-gradient(180deg, rgba(14,14,14,1) 0%, rgba(14,14,14,0) 12%, rgba(14,14,14,0) 88%, rgba(14,14,14,1) 100%)'
-                 }}
+                 style={{ background: 'linear-gradient(180deg, rgba(14,14,14,1) 0%, rgba(14,14,14,0) 12%, rgba(14,14,14,0) 88%, rgba(14,14,14,1) 100%)' }}
             />
           </div>
 
           {/* RIGHT - Images and Button */}
           <div className="flex flex-col items-center lg:items-end justify-center gap-6 md:gap-8 w-full lg:w-auto">
-            {/* Image Container - Stacked */}
-            <div className="relative w-[520px] h-[520px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px] xl:w-[350px] xl:h-[350px] overflow-hidden">
+            <div className="relative w-[300px] h-[300px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px] lg:w-[400px] lg:h-[400px] xl:w-[450px] xl:h-[450px] overflow-hidden">
               {services.map((service, i) => (
                 <div
                   key={i}
@@ -203,14 +192,13 @@ const Services = () => {
                     alt={service.name}
                     className="w-full h-full object-cover"
                     loading="lazy"
-                    decoding="async"
                   />
                 </div>
               ))}
             </div>
 
-            {/* View All Services Button */}
-            <button className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-solid border-[#0e0e0e66] dark:border-gray-500 hover:bg-[#0e0e0e0d] dark:hover:bg-gray-800 transition-colors bg-[#e2e2e2] dark:bg-bg-dark">
+            {/* Button aligned to the right, matching Navbar Menu button side */}
+            <button className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-solid border-[#0e0e0e66] dark:border-gray-500 hover:bg-[#0e0e0e0d] dark:hover:bg-gray-800 transition-colors bg-[#e2e2e2] dark:bg-bg-dark rounded-[12px]">
               <div className="font-medium text-[#0e0e0e] dark:text-text-light text-sm md:text-base leading-[24px] whitespace-nowrap">
                 View All Services
               </div>

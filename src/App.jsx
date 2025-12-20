@@ -14,16 +14,16 @@ import ProjectsPage from './pages/ProjectsPage'
 import BlogPage from './pages/BlogPage'
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <>
       <CustomCursor />
       <ScrollToTop />
       <div className="main-content">
-        <Navbar onMenuClick={() => setIsMenuOpen(true)} />
+        <Navbar onMenuClick={toggleMenu} menuOpen={isMenuOpen} />
         <NavMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-        
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
