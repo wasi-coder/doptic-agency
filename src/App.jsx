@@ -27,12 +27,14 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<><AboutPage /><CallToActionSection /><Footer /></>} />
-            <Route path="/services" element={<><ServicesPage /><CallToActionSection /><Footer /></>} />
-            <Route path="/projects" element={<><ProjectsPage /><CallToActionSection /><Footer /></>} />
-            <Route path="/blog" element={<><BlogPage /><CallToActionSection /><Footer /></>} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/blog" element={<BlogPage />} />
           </Routes>
         </main>
+        <CallToActionSection />
+        <Footer />
       </div>
     </>
   )

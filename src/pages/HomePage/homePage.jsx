@@ -18,8 +18,7 @@ const Home = () => {
       <Reviews />
       <FaqSection />
       <Blog />
-      <CallToActionSection />
-      <Footer />
+      
     </>
   )
 }
