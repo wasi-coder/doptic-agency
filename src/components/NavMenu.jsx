@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import { X } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import gsap from "gsap"
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from './ThemeToggle'
@@ -7,6 +8,7 @@ import MagneticButton from './MagneticButton'
 
 export default function NavMenu({ isOpen, onClose }) {
   const { theme } = useTheme()
+  const navigate = useNavigate() 
   const [activeNavItem, setActiveNavItem] = useState(null)
   const [isMiddleVisible, setIsMiddleVisible] = useState(false)
   const [isImageVisible, setIsImageVisible] = useState(false)
@@ -17,7 +19,16 @@ export default function NavMenu({ isOpen, onClose }) {
   const leftNavRef = useRef(null)
   const underlineRef = useRef(null)
 
-  const navItems = ["Home", "About", "Projects", "Services", "Blogs", "Contact Us"]
+  //const navItems = ["Home", "About", "Projects", "Services", "Blogs", "Contact Us"]
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Projects", path: "/projects" },
+    { name: "Services", path: "/services" },
+    { name: "Blogs", path: "/blog" },
+    { name: "Contact Us", path: "/contact" } // You'll need to create this page too
+  ]
+  
   const middleItems = ["Link Two", "Link Three", "Link Four", "Link Five"]
 
   useEffect(() => {
@@ -80,7 +91,11 @@ export default function NavMenu({ isOpen, onClose }) {
   }
 
   const handleNavItemClick = (item, index) => {
-    setActiveNavItem(item)
+    setActiveNavItem(item.name)
+
+    navigate(item.path)
+    onClose()
+
     setIsMiddleVisible(true)
 
     if (middleSectionRef.current) {
@@ -184,11 +199,11 @@ export default function NavMenu({ isOpen, onClose }) {
             <nav className="space-y-4">
               {navItems.map((item, index) => (
                 <button
-                  key={item}
+                  key={item.name}
                   id={`nav-${index}`}
                   onClick={() => handleNavItemClick(item, index)}
                   className={`block text-xl md:text-2xl lg:text-3xl text-left transition-colors ${
-                    activeNavItem === item
+                    activeNavItem === item.name
                       ? theme === 'dark'
                         ? "text-text-light"
                         : "text-text-dark"
@@ -198,10 +213,10 @@ export default function NavMenu({ isOpen, onClose }) {
                   }`}
                   style={{
                     fontFamily: 'Inter Variable, Inter, sans-serif',
-                    fontWeight: activeNavItem === item ? 500 : 400
+                    fontWeight: activeNavItem === item.name ? 500 : 400
                   }}
                 >
-                  {item}
+                  {item.name}
                 </button>
               ))}
             </nav>
