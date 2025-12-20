@@ -96,6 +96,11 @@ export default function NavMenu({ isOpen, onClose }) {
     navigate(item.path)
     onClose()
 
+    // Reload after a short delay
+  setTimeout(() => {
+    window.location.reload()
+  }, 100)
+
     setIsMiddleVisible(true)
 
     if (middleSectionRef.current) {
