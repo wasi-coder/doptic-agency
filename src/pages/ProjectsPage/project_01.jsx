@@ -1,11 +1,23 @@
 import React from 'react'
+import ProjectHero from './project_section/projects_hero'
+import Project02 from './project_section/projects_02'
+import Project03 from './project_section/projects_03'
+import Project04 from './project_section/projects_04'
+import Project05 from './project_section/projects_05'
+import Project06 from './project_section/projects_06'
 
 const ProjectsPage = () => {
   return (
-    <div className="projects-page">
-      <h1>Our Projects</h1>
-      {/* Your full projects page content */}
-    </div>
+    <>
+    <ProjectHero />
+    <Project02 />
+    <Project03 />
+    <Project04 />
+    <Project05 />
+    <Project06 />
+
+
+    </>
   )
 }
 
