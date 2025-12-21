@@ -65,7 +65,7 @@ const LandingPage = () => {
             
             {/* Background Project Number "01" */}
             <span 
-              className="absolute left-[-10px] top-[-20px] md:top-[-40px] font-bold text-black/[0.04] dark:text-white/[0.04] select-none z-0"
+              className="absolute left-[-10px] top-[-20px] md:top-[-40px] font-bold text-black/[0.1] dark:text-white/[0.3] select-none z-0"
               style={{ fontSize: 'clamp(100px, 20vw, 240px)' }}
             >
               01
