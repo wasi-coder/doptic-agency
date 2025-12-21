@@ -42,10 +42,10 @@ const CustomCursor = () => {
     // 2. Image Hover: Glass Zoom
     const onImageEnter = () => {
       gsap.to(follower, {
-        width: baseSize * 3.5,
-        height: baseSize * 3.5,
+        width: baseSize * 1.5,
+        height: baseSize * 1.5,
         backgroundColor: "rgba(255, 255, 255, 0.15)",
-        backdropFilter: "blur(8px) saturate(180%)", 
+        backdropFilter: "blur(1px) saturate(180%)", 
         border: "1px solid rgba(255, 255, 255, 0.4)",
         mixBlendMode: "normal",
         duration: 0.6,

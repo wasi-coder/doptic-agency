@@ -12,10 +12,13 @@ import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
 import ProjectsPage from './pages/ProjectsPage'
 import BlogPage from './pages/BlogPage'
+import NotFound from './pages/NotfoundPage'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  
 
   return (
     <>
@@ -30,7 +33,13 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/project_01" element={<ProjectsPage />} />
+            <Route path="/projects/project_02" element={<ProjectsPage />} />
+            <Route path="/projects/project_03" element={<ProjectsPage />} />
+            <Route path="/projects/project_04" element={<ProjectsPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/not_found" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <CallToActionSection />

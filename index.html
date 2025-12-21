@@ -10,6 +10,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doptic | Digital Agency - Web Design & Development</title>
     
+    <!-- ANTI-FLASH SCRIPT - Must be before everything -->
+    <script>
+      (function() {
+        let theme = localStorage.getItem('theme');
+        if (!theme) {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    
+    <style>
+      /* Prevent white flash with default background */
+      html {
+        background-color: #0a0a0a;
+        transition: background-color 0.3s ease;
+      }
+      html:not(.dark) {
+        background-color: #e2e2e2;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: inherit;
+      }
+      #root {
+        background-color: inherit;
+        min-height: 100vh;
+      }
+    </style>
+    
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

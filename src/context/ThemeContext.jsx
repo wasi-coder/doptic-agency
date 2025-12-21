@@ -18,19 +18,19 @@ export const ThemeProvider = ({ children }) => {
     // Check localStorage first
     const saved = localStorage.getItem('theme')
     if (saved) return saved
+    
     // Fall back to system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   })
 
   useEffect(() => {
     const root = document.documentElement
-    console.log();
     
-    if (theme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
+    // Remove both classes first, then add the correct one
+    root.classList.remove('light', 'dark')
+    root.classList.add(theme)
+    
+    // Save to localStorage
     localStorage.setItem('theme', theme)
   }, [theme])
 
