@@ -60,7 +60,7 @@ const PortfolioPage = () => {
           <div className="lg:col-span-5 animate-in">
             <div className="aspect-[4/5] bg-gray-300 overflow-hidden mb-10 shadow-sm">
               <img 
-                src="public\images\teamspage\design lead.svg" 
+                src="\images\teamspage\design lead.svg" 
                 alt="Liam Carter" 
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out scale-105 hover:scale-100"
               />
