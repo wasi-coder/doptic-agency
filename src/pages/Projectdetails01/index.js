@@ -1,0 +1,1 @@
+export { default } from './project_details_01'

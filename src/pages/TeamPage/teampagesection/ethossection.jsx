@@ -47,20 +47,14 @@ const RollingNumber = ({ target }) => {
   );
 };
 
-const AboutPartners = () => {
+const EthosSection = () => {
   const scrollRef = useRef(null);
   const containerRef = useRef(null);
   const textBodyRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Carousel Logic
-      gsap.to(scrollRef.current, {
-        xPercent: -50,
-        repeat: -1,
-        duration: 20,
-        ease: "none",
-      });
+     
 
       // 2. Letter-by-Letter Reveal
       // We split text into spans (can be done with SplitText plugin, but doing it manually here)
@@ -89,27 +83,7 @@ const AboutPartners = () => {
 return (
     <section ref={containerRef} className="w-full bg-bg-light dark:bg-bg-dark transition-colors duration-300 font-['Inter_Variable'] overflow-x-hidden">
       
-      {/* --- CAROUSEL --- */}
-      <div className="py-12 border-y border-gray-200 dark:border-gray-800">
-        <div className="max-w-full mx-auto px-[20px] md:px-[30px] lg:px-[60px]">
-          <div className="flex flex-col md:flex-row items-center gap-8 overflow-hidden">
-             <h3 className="text-[#0e0e0e] dark:text-white font-medium leading-[120%] tracking-[-4%] text-[32px] md:text-[40px] whitespace-nowrap"
-             style={{ fontFamily: FONT_INTER }}>
-                Creative Partners
-             </h3>
-             <div className="relative flex-1 overflow-hidden">
-                <div ref={scrollRef} className="flex items-center gap-12 w-max">
-                  {[...partners, ...partners].map((p, i) => (
-                    <div key={i} className="flex items-center gap-12">
-                      <img src={p.logo} alt="" className="h-8 md:h-10 dark:invert grayscale opacity-50" />
-                      <div className="h-8 w-[1px] bg-gray-300" />
-                    </div>
-                  ))}
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
+      
 
       {/* --- VALUES SECTION --- */}
       <div className="max-w-full mx-auto px-[20px] md:px-[30px] lg:px-[60px] py-20 lg:py-32">
@@ -118,7 +92,7 @@ return (
           {/* Left: Heading */}
           <h2 className="text-[50px] md:text-[72px] font-medium leading-[120%] tracking-[-4%] text-[#0e0e0e] dark:text-white"
           style={{ fontFamily: FONT_INTER }}>
-            Values
+            Our Ethos
           </h2>
 
           {/* Right: Text and Stats */}
@@ -128,18 +102,18 @@ return (
               className="text-[24px] md:text-[32px] font-normal leading-[120%] tracking-[-4%] text-gray-300 dark:text-gray-700"
               style={{ fontFamily: FONT_INTER }}
             >
-              We are a collective of strategists, designers, and engineers who refuse to settle for "good enough." We treat every project as an opportunity to push boundaries, delivering work that is visually striking and technically flawless.
-              <br className="mb-4" />
+              Doptic is driven by a passion for clarity. We believe that great design shouldn't just look good—it should solve complex problems. We strip away the noise to build digital products that are intuitive, scalable, and impactful. 
               <br />
-              From initial brainstorming to final code, our diverse perspectives converge to create singular, powerful solutions that turn ambitious concepts into reality.
+              Our approach blends data-driven strategy with pixel-perfect execution. We don't just build for today; we build for the future of your brand.
+              
             </div>
 
             {/* Stats Grid - FIXED FOR BOUNDS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-12 border-t border-gray-200 pt-16">
               {[
-                { label: "Established for", value: 1, suffix: "0", unit: "Years" },
-                { label: "Work across", value: 1, suffix: "6", unit: "Countries" },
-                { label: "Over", value: 9, suffix: "0", unit: "Projects" }
+                { label: "Active", value: 1, suffix: "0", unit: "Years" },
+                { label: "Awards", value: 4, suffix: "5", unit: "Design" },
+                { label: "Over", value: 6, suffix: "4", unit: "Projects" }
               ].map((stat, i) => (
                 <div key={i} className="flex flex-col min-w-max">
                   <span className="text-[12px] md:text-sm uppercase tracking-widest text-gray-500 mb-4">{stat.label}</span>
@@ -158,4 +132,4 @@ return (
   );
 };
 
-export default AboutPartners;
+export default EthosSection;

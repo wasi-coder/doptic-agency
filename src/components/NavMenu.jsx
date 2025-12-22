@@ -30,24 +30,24 @@ export default function NavMenu({ isOpen, onClose }) {
       path: "/about", 
       subs: [
         { label: "About_01", path: "/about" },
-        { label: "About_02", path: "/about/team" },
-        { label: "About_03", path: "/about/history" },
-        { label: "About_04", path: "/about/mission" }
+        { label: "About_02", path: "/about" },
+        { label: "About_03", path: "/about" },
+        { label: "About_04", path: "/about" }
       ]
     },
     "Projects": { 
       path: "/projects", 
       subs: [
-        { label: "Project_01", path: "/projects/project_01" },
-        { label: "Project_02", path: "/projects/project_02" },
-        { label: "Project_03", path: "/projects/project_03" },
-        { label: "Project_04", path: "/projects/project_04" }
+        { label: "All Projects", path: "/projects/project_01" },
+        { label: "Project Details_01", path: "/projects/project_details_01" },
+        { label: "Project Details_02", path: "/projects/project_details_02" },
+        { label: "Project Details_03", path: "/projects/project_details_03" }
       ]
     },
     "Services": { 
       path: "/services", 
       subs: [
-        { label: "Service_01", path: "/services/consulting" },
+        { label: "Service_01", path: "/services" },
         { label: "Service_02", path: "/services/development" },
         { label: "Service_03", path: "/services/design" },
         { label: "Service_04", path: "/services/support" }
@@ -66,9 +66,9 @@ export default function NavMenu({ isOpen, onClose }) {
       path: "/team", 
       subs: [
         { label: "Team_01", path: "/team" },
-        { label: "Team_02", path: "/team/leadership" },
-        { label: "Team_03", path: "/team/departments" },
-        { label: "Team_04", path: "/team/careers" }
+        { label: "Design team", path: "/design_team" },
+        { label: "Team_02", path: "/team/departments" },
+        { label: "Team_03", path: "/team/careers" }
       ]
     },
     "Contact Us": { 
