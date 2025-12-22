@@ -91,13 +91,13 @@ const Navbar = ({ onMenuClick, menuOpen }) => {
               <div 
                 ref={line1Ref}
                 className={`w-7 h-[2px] transition-colors duration-300 ${
-                    menuOpen ? 'bg-white' : (theme === 'dark' ? 'bg-white' : 'bg-black')
+                    menuOpen ? (theme === 'dark' ? 'bg-white' : 'bg-black') : (theme === 'dark' ? 'bg-white' : 'bg-black')
                 }`}
               />
               <div 
                 ref={line2Ref}
                 className={`w-7 h-[2px] transition-colors duration-300 ${
-                    menuOpen ? 'bg-white' : (theme === 'dark' ? 'bg-white' : 'bg-black')
+                    menuOpen ? (theme === 'dark' ? 'bg-white' : 'bg-black') : (theme === 'dark' ? 'bg-white' : 'bg-black')
                 }`}
               />
             </button>
