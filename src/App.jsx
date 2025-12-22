@@ -17,6 +17,10 @@ import ProjectDetails from './pages/Projectdetails01'
 import TeamPage from './pages/TeamPage'
 import FaqSection from './pages/HomePage/sections/Faq'
 import DesignTeam from './pages/TeamDesignPage'
+import BlogStandard02 from './pages/BlogStandard'
+import BlogGrid01 from './pages/BlogPage'
+import BlogPost01 from './pages/BlogPost'
+import Contact01 from './pages/ContactPage'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,7 +47,10 @@ function App() {
             <Route path="/projects/project_details_02" element={<ProjectDetails />} />
             <Route path="/projects/project_details_03" element={<ProjectDetails />} />
             <Route path="/projects/project_details_04" element={<ProjectDetails />} />
-            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog" element={<BlogGrid01 />} />
+            <Route path="/blogstandard02" element={<BlogStandard02 />} />
+            <Route path="/blogpost01" element={<BlogPost01 />} />
+            <Route path="/contact01" element={<Contact01 />} />
             <Route path="/not_found" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

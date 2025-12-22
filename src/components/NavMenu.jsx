@@ -56,9 +56,9 @@ export default function NavMenu({ isOpen, onClose }) {
     "Blogs": { 
       path: "/blog", 
       subs: [
-        { label: "Blog_01", path: "/blog/latest" },
-        { label: "Blog_02", path: "/blog/featured" },
-        { label: "Blog_03", path: "/blog/archive" },
+        { label: "Blog Grid_01", path: "/blog" },
+        { label: "Blog Standard_02", path: "/blogstandard02" },
+        { label: "Blog Post_01", path: "/blogpost01" },
         { label: "Blog_04", path: "/blog/categories" }
       ]
     },
@@ -74,7 +74,7 @@ export default function NavMenu({ isOpen, onClose }) {
     "Contact Us": { 
       path: "/contact", 
       subs: [
-        { label: "Email", path: "/contact/email" },
+        { label: "Contact_01", path: "/contact01" },
         { label: "Location", path: "/contact/location" },
         { label: "Inquiry", path: "/contact/inquiry" }
       ]

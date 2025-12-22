@@ -1,12 +1,14 @@
 import React from 'react'
+import BlogGridSection1 from './blogpagesections/blog_grid_section1'
 
-const BlogPage = () => {
+
+const BlogGrid01 = () => {
   return (
-    <div className="blog-page">
-      <h1>Blog</h1>
-      {/* Your full blog page content */}
-    </div>
+    < >
+      <BlogGridSection1/>
+     
+    </>
   )
 }
 
-export default BlogPage
+export default BlogGrid01
