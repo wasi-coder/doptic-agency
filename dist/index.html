@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Doptic - A digital agency defining style and digital culture. We create clean designs that turn visitors into paying clients." />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="icon" type="image/svg+xml" href="/doptic-agency/vite.svg" />
+    <link rel="apple-touch-icon" href="/doptic-agency/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doptic | Digital Agency - Web Design & Development</title>
+    
+    <!-- ANTI-FLASH SCRIPT - Must be before everything -->
+    <script>
+      (function() {
+        let theme = localStorage.getItem('theme');
+        if (!theme) {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    
+    <style>
+      /* Prevent white flash with default background */
+      html {
+        background-color: #0a0a0a;
+        transition: background-color 0.3s ease;
+      }
+      html:not(.dark) {
+        background-color: #e2e2e2;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: inherit;
+      }
+      #root {
+        background-color: inherit;
+        min-height: 100vh;
+      }
+    </style>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://i.pravatar.cc">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <!-- DNS prefetch for external services -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    
+    <!-- Font loading with font-display: swap for better performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+    <script type="module" crossorigin src="/doptic-agency/assets/index-Ca0ewHiv.js"></script>
+    <link rel="stylesheet" crossorigin href="/doptic-agency/assets/index-CjFmULBR.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
