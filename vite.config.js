@@ -4,6 +4,7 @@ import path from 'path'; // <--- 1. Import 'path'
 
 export default defineConfig({
   plugins: [react()],
+  base: '/doptic-agency/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"), // <--- 2. Add the alias mapping
